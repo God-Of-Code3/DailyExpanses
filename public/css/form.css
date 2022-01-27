@@ -2,7 +2,17 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-bottom: var(--main-padding);
+  margin-top: var(--main-padding);
+}
+
+.form-group:first-of-type {
+  margin-top: 0;
+}
+
+.form-group-horizontal {
+  display: grid;
+  grid-gap: var(--main-padding);
+  grid-template-columns: 1fr 2fr;
 }
 
 label {
@@ -13,16 +23,30 @@ label {
   font-weight: var(--fw-3);
 }
 
+.form-group-horizontal label {
+  text-align: left;
+  margin-bottom: 0;
+}
+
 input, select, textarea, button {
   width: 100%;
   border-radius: var(--border-radius);
-  background: var(--white);
+  background-color: var(--white);
   border: var(--main-transparent-border);
   box-shadow: var(--form-element-box-shadow);
   padding: var(--second-padding);
   font-size: var(--fz-2);
   font-weight: var(--fw-3);
   outline: none;
+}
+
+select {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url(/images/select-arrow.svg?32b0429305e8692b2b2e8fc716bb98e6);
+  background-repeat: no-repeat;
+  background-position: calc(100% - var(--second-padding)) center;
 }
 
 button {

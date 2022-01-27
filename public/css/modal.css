@@ -1,0 +1,21 @@
+.modal {
+  position: fixed;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  left: -100vw;
+  background: var(--matte-panel-color);
+  -webkit-backdrop-filter: var(--panel-effect);
+          backdrop-filter: var(--panel-effect);
+  z-index: 5;
+  padding: var(--main-padding);
+  transition: 0.5s;
+}
+
+.modal.active {
+  left: 0px;
+}
+
+.modal-close {
+  padding: var(--main-padding);
+}
