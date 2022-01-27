@@ -26,9 +26,9 @@
 		Последние транзакции
 	</div>
 	<x-vertical-list.vertical-list>
-		<x-vertical-list.vertical-list-item sum='10000' color='yellow' category-name='Электроника' />
-		<x-vertical-list.vertical-list-item sum='-2000' color='yellow' category-name='Электроника' />
-		<x-vertical-list.vertical-list-item sum='13000' color='yellow' category-name='Электроника' />
+		<x-vertical-list.vertical-list-item sum='-10000' color='#FECE54' category-name='Электроника' />
+		<x-vertical-list.vertical-list-item sum='-1300' color='#499DFF' category-name='Транспорт' />
+		<x-vertical-list.vertical-list-item sum='1000' color='#51D600' category-name='Пополнение' />
 	</x-vertical-list.vertical-list>
 	<!-- <div class="vertical-list">
 		<div class="vertical-list-item">

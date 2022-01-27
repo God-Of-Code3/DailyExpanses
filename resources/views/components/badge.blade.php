@@ -1,3 +1,1 @@
-<div>
-    <!-- He who is contented is rich. - Laozi -->
-</div>
+<div class="badge" style="background: {{ $color  }};">{{ $slot }}</div>
