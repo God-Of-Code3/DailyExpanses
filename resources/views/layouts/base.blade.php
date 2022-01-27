@@ -41,7 +41,7 @@
 		</div>
 		@yield('modals')
 	</main>
-	<x-modal title='Меню' id='menu'>
+	<x-modal title='Меню' id='menu' classes='modal'>
 		<x-menu.menu>
 			<x-menu.menu-item active>Главная</x-menu.menu-item>
 			<x-menu.menu-item>Статистика</x-menu.menu-item>

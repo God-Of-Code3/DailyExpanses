@@ -9,6 +9,7 @@
 	z-index: 5;
 
 	padding: var(--main-padding);
+	overflow-y: auto;
 
 	transition: 0.5s;
 }
@@ -16,6 +17,16 @@
 .modal.active {
 	left: 0px;
 }
+
+.modal-bottom {
+	left: 0px;
+	top: 100%;
+
+	&.active {
+		top: 0px;
+	}
+}
+
 
 .modal-close {
 	padding: var(--main-padding);

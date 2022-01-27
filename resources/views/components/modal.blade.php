@@ -1,4 +1,4 @@
-<div class="modal" {{ $attributes }} id="{{ $id }}">
+<div class="modal {{ $classes }}" {{ $attributes }} id="{{ $id }}">
     <div class="header">
         <div class="header-element modal-close"  data-action data-action-click='deactivate' data-action-click-data='{{ $id }}'>
             <img src="{{ asset('img/cross.svg') }}" alt="cross">
