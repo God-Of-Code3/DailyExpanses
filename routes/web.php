@@ -45,6 +45,10 @@ Route::get('/forecast', function () {
     return view('forecast');
 });
 
+Route::get('/history', function () {
+    return view('history');
+});
+
 Route::post('/login', function () {
     return dd($_POST);
 })->name('login-post');
