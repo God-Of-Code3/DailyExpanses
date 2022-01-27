@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('title')
-Главная
+Главная 2
 @endsection
 
 @section('background')
