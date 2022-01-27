@@ -1,0 +1,22 @@
+.menu {
+	list-style: none;
+	padding-left: 0px;
+	display: grid;
+	grid-gap: 20px;
+}
+
+.menu-item {
+	padding: var(--second-padding) var(--main-padding);
+}
+
+.menu-item.disabled {
+	opacity: 0.4;
+}
+
+.menu-item.active {
+	border-radius: var(--border-radius);
+	background-color: var(--panel-color);
+	backdrop-filter: var(--panel-effect);
+	box-shadow: var(--panel-box-shadow);
+	font-weight: var(--fw-2);
+}

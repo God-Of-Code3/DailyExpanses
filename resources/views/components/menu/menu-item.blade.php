@@ -1,0 +1,1 @@
+<li {{ $attributes }} class='menu-item @if ($active) active @endif @if ($disabled) disabled @endif'>{{ $slot }}</li>

@@ -1,0 +1,2 @@
+<path d="M25,0 A25,25 0 0,0 50,25" class='blured' data-sector-value='{{ $percent }}' stroke-linejoin="round" stroke-width="3" stroke="{{ $color }}" fill="{{ $color }}"/>
+<path d="M25,0 A25,25 0 0,0 50,25" data-sector-value='{{ $percent }}' stroke-linejoin="round" stroke-width="3" stroke="{{ $color }}" fill="{{ $color }}"/>

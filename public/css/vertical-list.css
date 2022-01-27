@@ -1,0 +1,21 @@
+.vertical-list {
+  display: grid;
+  grid-gap: var(--main-padding);
+}
+
+.vertical-list-item {
+  padding: var(--second-padding);
+  border-radius: var(--border-radius);
+  background-color: var(--panel-color);
+  -webkit-backdrop-filter: var(--panel-effect);
+          backdrop-filter: var(--panel-effect);
+  box-shadow: var(--panel-box-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vertical-list-item .left, .vertical-list-item .right {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,45 @@
+.vertical-list {
+	display: grid;
+	grid-gap: var(--main-padding);
+}
+
+.vertical-list-item {
+	position: relative;
+	z-index: 1;
+	padding: var(--second-padding);
+	border-radius: var(--border-radius);
+	background-color: var(--panel-color);
+	backdrop-filter: var(--panel-effect);
+	box-shadow: var(--panel-box-shadow);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.vertical-list-item .left, .vertical-list-item .right {
+	display: flex;
+	align-items: center;
+}
+
+.vertical-list-item-progress {
+	position: relative;
+
+}
+
+.vertical-list-item-progress .vertical-list-item {
+	backdrop-filter: none;
+}
+
+.progress-bar {
+	position: absolute;
+	overflow:hidden;
+	border-radius: var(--border-radius);
+	width: 100%;
+	height: 100%;
+}
+
+.progress {
+	position: absolute;
+	height:100%;
+	box-shadow: 10px 0px 10px 5px #FECE54;
+}

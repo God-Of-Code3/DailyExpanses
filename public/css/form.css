@@ -1,0 +1,47 @@
+.form-group {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: var(--main-padding);
+}
+
+label {
+  display: block;
+  text-align: center;
+  margin-bottom: var(--third-padding);
+  font-size: var(--fz-2);
+  font-weight: var(--fw-3);
+}
+
+input, select, textarea, button {
+  width: 100%;
+  border-radius: var(--border-radius);
+  background: var(--white);
+  border: var(--main-transparent-border);
+  box-shadow: var(--form-element-box-shadow);
+  padding: var(--second-padding);
+  font-size: var(--fz-2);
+  font-weight: var(--fw-3);
+  outline: none;
+}
+
+button {
+  background: linear-gradient(93.44deg, var(--main-color) 0%, var(--medium-green) 100%);
+  color: var(--white);
+  border: 0;
+}
+
+.form button {
+  margin-top: var(--big-padding);
+}
+
+button.short {
+  padding: var(--second-padding);
+  display: inline-block;
+  width: auto;
+}
+
+button.short img {
+  width: 19px;
+  height: 15px;
+}

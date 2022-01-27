@@ -1,0 +1,1 @@
+<div class="tab @if ($active) active @endif">{{ $slot }}</div>
