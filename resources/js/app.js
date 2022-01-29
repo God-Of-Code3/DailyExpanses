@@ -2,19 +2,40 @@ const $ = (s, el=document) => el.querySelector(s);
 const $$ = (s, el=document) => el.querySelectorAll(s);
 
 // Action functions
-const activate = id => {
-	$(`#${id}`).classList.add('active');
-
+const activate = (id, ev) => {
+	let el = $(`#${id}`);
+	if (el.dataset.activeGroup) {
+		let activeGroup = el.dataset.activeGroup;
+		$$(`[data-active-group=${activeGroup}]`).forEach(other => {
+			other.classList.remove('active');
+		});
+	}
+	el.classList.add('active');
 }
-const deactivate = id => $(`#${id}`).classList.remove('active');
+
+const deactivate = (id, ev) => $(`#${id}`).classList.remove('active');
+
+const doSelectedOptionAction = (data, ev) => {
+	let select = ev.target;
+	let value = select.value;
+	let selected = $(`[value=${value}][data-action]`, select);
+	if (selected) {
+		let actionName = selected.getAttribute(`data-action-select-option`);
+		let actionData = selected.getAttribute(`data-action-select-option-data`);
+
+		actionKeys[actionName](actionData, ev);
+	}
+}
 
 const actionKeys = {
 	'activate': activate,
 	'deactivate': deactivate,
+	'doSelectedOptionAction': doSelectedOptionAction
 }
 
 const actionTypes = {
 	'click': (el, func) => el.onclick = func,
+	'change': (el, func) => el.onchange = func
 }
 
 // Activation actions
@@ -24,9 +45,8 @@ $$('[data-action]').forEach(el => {
 		let actionName = el.getAttribute(`data-action-${actionType}`);
 		if (actionName) {
 			let actionData = el.getAttribute(`data-action-${actionType}-data`);
-
 			if (actionKeys[actionName]) {
-				actionTypes[actionType](el, () => { actionKeys[actionName](actionData) });
+				actionTypes[actionType](el, (ev) => { actionKeys[actionName](actionData, ev) });
 			}
 		}
 		

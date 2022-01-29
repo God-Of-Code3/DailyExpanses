@@ -276,6 +276,11 @@ body {
   display: block;
 }
 
+.invisible {
+  display: none;
+}
+
+
 /* Body  */
 .background-effect {
   position: fixed;
