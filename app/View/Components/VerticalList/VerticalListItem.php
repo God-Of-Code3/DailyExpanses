@@ -11,17 +11,19 @@ class VerticalListItem extends Component
     public $positive;
     public $sumText;
     public $sum;
+    public $icon;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($sum, $color, $categoryName)
+    public function __construct($sum, $color, $categoryName, $icon)
     {
         $this->sumText = number_format($sum, 0, '', ' ')." ₽";
         $this->color = $color;
         $this->categoryName = $categoryName;
         $this->positive = $sum > 0;
+        $this->icon = $icon;
 
         if ($this->positive) {
             $this->sumText = "+".$this->sumText;
