@@ -22,7 +22,15 @@
 @endsection
 
 @section('content-down')
-	
+	<div class="t-center">
+		Транзакции
+	</div>
+	<x-vertical-list.vertical-list>
+		<x-vertical-list.vertical-list-item sum='-10000' color='#FECE54' category-name='Электроника' icon='fas fa-bolt' />
+		<x-vertical-list.vertical-list-item sum='-1300' color='#499DFF' category-name='Транспорт' icon='fas fa-bus' />
+		<x-vertical-list.vertical-list-item sum='1000' color='#51D600' category-name='Банкомат' icon='fas fa-cash-register' />
+		<x-vertical-list.vertical-list-item sum='-7600' color='#553AFA' category-name='Одежда' icon='fas fa-tshirt' />
+	</x-vertical-list.vertical-list>
 @endsection
 
 @section('modals')
@@ -74,7 +82,6 @@
 					<div class="selectable" data-value='2'><x-badge color='#5DCF76' icon='fas fa-long-arrow-alt-left'>Переводы</x-badge></div>
 				</x-form.material-select>
 			</div>
-	
 		</x-form>
 	</x-modal>
 @endsection
