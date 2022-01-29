@@ -262,6 +262,10 @@ body {
 	display: inline-flex;
 }
 
+.row-wrap {
+	flex-wrap: wrap;
+}
+
 .tabs {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -274,8 +278,6 @@ body {
 	padding: var(--second-padding);
 	text-align: center;
 	border-radius: var(--border-radius);
-	
-
 }
 
 .tab.active {

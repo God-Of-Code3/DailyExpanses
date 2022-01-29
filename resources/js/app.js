@@ -33,3 +33,19 @@ $$('[data-action]').forEach(el => {
 	}
 		
 });
+
+// Material select
+$$('[data-material-select]').forEach(select => {
+	let selectableElements = $$('.selectable[data-value]', select);
+	let selectInput = $('input[data-material-select-input]', select);
+
+	selectableElements.forEach(el => {
+		el.onclick = () => {
+			selectInput.value = el.dataset.value;
+			$$('.selected', select).forEach(selected => {
+				selected.classList.remove('selected');
+			});
+			el.classList.add('selected');
+		}
+	});
+});
