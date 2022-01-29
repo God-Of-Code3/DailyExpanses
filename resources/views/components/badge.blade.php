@@ -1,1 +1,1 @@
-<div class="badge" style="background: {{ $color  }};">{{ $slot }}</div>
+<div class="badge @if($inverse) badge-inverse @endif" style="background: {{ $color  }};"><i class="{{ $icon }}"></i>{{ $slot }}</div>

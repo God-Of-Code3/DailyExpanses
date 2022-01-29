@@ -7,14 +7,18 @@ use Illuminate\View\Component;
 class Badge extends Component
 {
     public $color;
+    public $inverse;
+    public $icon;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($color)
+    public function __construct($color, $inverse, $icon)
     {
         $this->color = $color;
+        $this->inverse = $inverse;
+        $this->icon = $icon;
     }
 
     /**

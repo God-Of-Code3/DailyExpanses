@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="/css/menu.css">
 	<link rel="stylesheet" href="/css/diagram.css">
 	<link rel="stylesheet" href="/css/schedule.css">
+	<script src="https://kit.fontawesome.com/63d029dc8e.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<main>
