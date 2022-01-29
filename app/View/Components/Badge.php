@@ -14,7 +14,7 @@ class Badge extends Component
      *
      * @return void
      */
-    public function __construct($color, $inverse, $icon)
+    public function __construct($color, $icon, $inverse=false)
     {
         $this->color = $color;
         $this->inverse = $inverse;
