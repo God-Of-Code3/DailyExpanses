@@ -56,6 +56,10 @@ body {
   margin-right: var(--main-padding);
 }
 
+.mt-1 {
+  margin-top: var(--main-padding);
+}
+
 .m-3 {
   margin: var(--third-padding);
 }
@@ -186,10 +190,26 @@ body {
   padding: var(--fourth-padding) var(--third-padding);
   font-size: var(--fz-3);
   font-weight: var(--fw-2);
-  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   background: #000;
   color: #fff;
+  transition: 0.2s;
+}
+.badge i {
+  font-size: var(--fz-4);
+  margin-right: var(--fourth-padding);
+}
+
+.selected .badge {
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.badge-inverse {
+  color: rgba(0, 0, 0, 0.4);
+  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
 }
 
 .value {
@@ -240,6 +260,10 @@ body {
   display: inline-flex;
 }
 
+.row-wrap {
+  flex-wrap: wrap;
+}
+
 .tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -276,10 +300,12 @@ body {
   display: block;
 }
 
-.invisible {
+.hidden {
   display: none;
 }
-
+.hidden.active {
+  display: block;
+}
 
 /* Body  */
 .background-effect {

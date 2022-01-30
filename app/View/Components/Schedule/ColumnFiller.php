@@ -4,19 +4,19 @@ namespace App\View\Components\Schedule;
 
 use Illuminate\View\Component;
 
-class Column extends Component
+class ColumnFiller extends Component
 {
+    public $color;
     public $height;
-    public $text;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($height, $text='')
+    public function __construct($color, $height)
     {
+        $this->color = $color;
         $this->height = $height;
-        $this->text = $text;
     }
 
     /**
@@ -26,6 +26,6 @@ class Column extends Component
      */
     public function render()
     {
-        return view('components.schedule.column');
+        return view('components.schedule.column-filler');
     }
 }

@@ -69,3 +69,8 @@ button.short img {
   width: 19px;
   height: 15px;
 }
+
+.selectable {
+  margin-bottom: var(--third-padding);
+  margin-right: var(--third-padding);
+}

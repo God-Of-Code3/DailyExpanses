@@ -69,3 +69,5 @@ $$('[data-material-select]').forEach(select => {
 		}
 	});
 });
+
+// Tabs

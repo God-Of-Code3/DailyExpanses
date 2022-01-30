@@ -1,4 +1,11 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/js/diagram.js": "/js/diagram.js",
+    "/css/app.css": "/css/app.css",
+    "/css/diagram.css": "/css/diagram.css",
+    "/css/menu.css": "/css/menu.css",
+    "/css/modal.css": "/css/modal.css",
+    "/css/form.css": "/css/form.css",
+    "/css/vertical-list.css": "/css/vertical-list.css",
+    "/css/schedule.css": "/css/schedule.css"
 }

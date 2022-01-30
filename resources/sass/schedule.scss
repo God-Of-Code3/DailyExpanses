@@ -1,95 +1,82 @@
 .schedule {
-	max-width: 100%;
-	position: relative;
-	height: 140px;
+  max-width: 100%;
+  position: relative;
+  height: 140px;
 }
 
 .schedule-columns {
-	top: 0px;
-	right: 0px;
-	height: 100%;
-	width: calc(100vw - 2 * var(--main-padding) - 100px);
-	margin-left: 100px;
-	display: flex;
-	justify-content: space-between;
-	position: relative;
-	z-index: 1;
-	border-radius: 5px;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: calc(100vw - var(--main-padding) * 2 - 70px);
+  display: flex;
+  flex-wrap:  nowrap;
+  position: relative;
+  z-index: 1;
+  overflow-x: scroll;
+  padding-bottom: 10px;
+}
 
-	&:after {
-		z-index: 2;
-
-	}
+.schedule-columns:after {
+  z-index: 2;
 }
 
 .column {
+	width: 8px;
 	height: 100%;
+	margin-left: 4px;
 	margin-top: auto;
 	margin-bottom: 0px;
 	border-radius: var(--border-radius);
-	display: flex;
-	flex-direction: column;
+	flex: 0 0 auto;
+  	height: 100%;
+  	display: flex;
+  	flex-direction: column-reverse;
+
+	.column-data {
+		display: flex;
+		flex-direction: column;
+		border-radius: 5px;
+		overflow:  hidden;
+	}
 
 	.column-text {
-		padding: 0 var(--fourth-padding);
 		text-align: center;
-		color: #000;
-		font-size: var(--fz-3);
+		font-size: var(--fz-5);
+		font-weight: var(--fw-4);
+		min-height: 15px;
 	}
 
-	.column-figures {
-		position: relative;
-		height: 100%;
+	.filler {
+		width: 100%;
 
-		.column-figure {
-			transition: 0.2s;
-			position: absolute;
-			bottom: 0px;
-			left: 0px;
-			width: 100%;
-			height: 100%;
-			background: var(--green);
-			border-radius: 10px;
-
-			&.transparent {
-				opacity: 0.6;
-			}
-		}
 	}
-}
-
-.column:hover {
-
-	.column-figure {
-		transform: scale(1.07);
-		box-shadow: 0px 0px 30px 5px var(--green);
-	}
-	
 }
 
 .column:first-of-type {
-	margin-left: 0;
+  margin-left: 0;
 }
 
 .legend {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-	z-index: 0;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: calc(100% - 25px);
+  z-index: 0;
 }
 
 .indicator {
-	position: absolute;
-	font-size: var(--fz-4);
-	color: var(--green);
-	width: 100%;
+  position: absolute;
+  font-size: var(--fz-5);
+  font-weight: var(--fw-4);
+  width: 100%;
+  text-align: right;
 }
 
 .indicator-line {
-	width: 100%;
-	height: 1px;
-	border-radius: 1px;
-	background: #E0E0E0;
+  width: 100%;
+  height: 1px;
+  border-radius: 1px;
+  background: #E0E0E0;
 }

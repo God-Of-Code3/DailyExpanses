@@ -8,53 +8,38 @@
   top: 0px;
   right: 0px;
   height: 100%;
-  width: calc(100vw - 2 * var(--main-padding) - 100px);
-  margin-left: 100px;
+  width: calc(100vw - var(--main-padding) * 2);
   display: flex;
-  justify-content: space-between;
+  flex-wrap:  nowrap;
   position: relative;
   z-index: 1;
-  border-radius: 5px;
+  overflow-x: scroll;
 }
+
 .schedule-columns:after {
   z-index: 2;
 }
 
 .column {
+  width: 10px;
   height: 100%;
+  margin-left: 7px;
   margin-top: auto;
   margin-bottom: 0px;
   border-radius: var(--border-radius);
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
+  border-radius: 2px;
+  overflow:  hidden;
+
 }
+
 .column .column-text {
   padding: 0 var(--fourth-padding);
   text-align: center;
   color: #000;
   font-size: var(--fz-3);
-}
-.column .column-figures {
-  position: relative;
-  height: 100%;
-}
-.column .column-figures .column-figure {
-  transition: 0.2s;
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  background: var(--green);
-  border-radius: 10px;
-}
-.column .column-figures .column-figure.transparent {
-  opacity: 0.6;
-}
-
-.column:hover .column-figure {
-  transform: scale(1.07);
-  box-shadow: 0px 0px 30px 5px var(--green);
 }
 
 .column:first-of-type {
