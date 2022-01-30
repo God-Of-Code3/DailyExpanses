@@ -28,9 +28,16 @@ Route::get('/test', function () {
 Route::get('/register', [UserController::class, 'register'])->name('register-get');
 Route::post('/register', [UserController::class, 'handleRegister'])->name('register-post');
 
-Route::get('/main', function () {
-    return view('main');
-});
+// Страница авторизации - отображение и обработка
+Route::get('/login', [UserController::class, 'login'])->name('login-get');
+Route::post('/login', [UserController::class, 'handleLogin'])->name('login-post');
+
+// Главная страница
+Route::get('/main', [UserController::class, 'main'])->name('main-get');
+
+// Route::get('/main', function () {
+//     return view('main');
+// })->name('main-get');
 
 Route::get('/statistics', function () {
     return view('statistics');
@@ -59,7 +66,3 @@ Route::post('/history', function () {
 Route::get('/export', function () {
     return view('export');
 })->name('export-get');
-
-Route::post('/login', function () {
-    return dd($_POST);
-})->name('login-post');

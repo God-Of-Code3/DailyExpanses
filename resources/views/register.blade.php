@@ -14,7 +14,7 @@
 	<x-container inner>
 		<x-panel>
 			<x-form action='register-post' button-text='Войти'>
-				<x-form.input name='login' label-text='Логин' placeholder='example@site.com' type='email'/>
+				<x-form.input name='email' label-text='Логин' placeholder='example@site.com' type='email'/>
 				<x-form.input name='password' label-text='Пароль' type='password'/>
 			</x-form>
 		</x-panel>
