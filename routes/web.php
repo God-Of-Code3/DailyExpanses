@@ -43,7 +43,7 @@ Route::get('/transactions', function () {
 
 Route::get('/forecast', function () {
     return view('forecast');
-});
+})->name('forecast-get');
 
 Route::get('/history', function () {
     return view('history');
@@ -52,6 +52,10 @@ Route::get('/history', function () {
 Route::post('/history', function () {
     return view('history');
 })->name('history-post');
+
+Route::get('/export', function () {
+    return view('export');
+})->name('export-get');
 
 Route::post('/login', function () {
     return dd($_POST);
