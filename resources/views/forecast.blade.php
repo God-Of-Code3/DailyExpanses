@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('title')
-Прогноз расходов
+Прогноз
 @endsection
 
 @section('background')
@@ -10,40 +10,28 @@
 @endsection
 
 @section('page-title')
-Прогноз расходов
+Прогноз
 @endsection
 
 @section('content-up')
-	<div class="t-center">
-		Нажмите на столбец интересующего месяца, чтобы узнать траты за этот месяц
-		<div class="fz-1"></div>
-	</div>
-	<div class="t-center">
-		<div class="fz-3">Данные за последние 4 месяца</div>
-	</div>
-	<x-schedule.schedule>
-		<div class="schedule-columns">
-			<x-schedule.column main-percent="20">ноя</x-schedule.column>
-			<x-schedule.column main-percent="30">дек</x-schedule.column>
-			<x-schedule.column main-percent="40">янв</x-schedule.column>
-			<x-schedule.column main-percent="50" transparent-percent="100">фев</x-schedule.column>
+	<x-panel classes='container'>
+		<div class="t-center fz-2">Февраль 2022</div>
+		<div class="t-center fz-1 fw-2">45 000/50 000 Р</div>
+		<div class="t-center fz-3 fw-4">Потрачено/Прогноз трат</div>
+	</x-panel>
+	<x-panel classes='container'>
+		<div class="t-center">Прогноз текущего остатка с учетом инфляции на срок</div>
+		<x-tabs.tabs classes='tabs-3'>
+			<x-tabs.tab active data-action data-action-click='activate' data-action-click-data='month-3-forecast'>3 мес</x-tabs.tab>
+			<x-tabs.tab data-action data-action-click='activate' data-action-click-data='month-6-forecast'>6 мес</x-tabs.tab>
+			<x-tabs.tab data-action data-action-click='activate' data-action-click-data='year-forecast'>Год</x-tabs.tab>
+		</x-tabs.tabs>
+		<div class="t-center">
+			<div data-active-group='forecast' id='month-3-forecast' class="hidden active fz-1 fw-2">35 000 Р</div>
+			<div data-active-group='forecast' id='month-6-forecast' class="hidden fz-1 fw-2">34 000 Р</div>
+			<div data-active-group='forecast' id='year-forecast' class="hidden fz-1 fw-2">33 000 Р</div>
 		</div>
-		<div class="legend">
-			<x-schedule.indicator percent="0">0 Р</x-schedule.indicator>
-			<x-schedule.indicator percent="20">80 000 Р</x-schedule.indicator>
-			<x-schedule.indicator percent="100">400 000 Р</x-schedule.indicator>
-		</div>
-	</x-schedule>
-	<div class="row row-center">
-		<div class="">
-			<div class="row row-aic row-inline"><span class='green-squad'></span> - Потрачено</div><br>
-			<div class="row row-aic row-inline"><span class='green-transparent-squad'></span> - Прогноз трат</div>
-		</div>
-	</div>
-	<x-panel>
-		<div class="fz-2">Февраль 2022</div>
-		<div class="fz-1 fw-2">45 000/<big class='fw-2'>50 000 Р</big></div>
-		<div class="fz-3 fw-4">Потрачено/Прогноз трат</div>
+			
 	</x-panel>
 @endsection
 

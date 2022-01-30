@@ -1,3 +1,3 @@
-<div class="tabs">
+<div class="tabs {{ $classes }}">
     {{ $slot }}
 </div>
