@@ -34,6 +34,7 @@ Route::post('/login', [UserController::class, 'handleLogin'])->name('login-post'
 
 // Главная страница
 Route::get('/main', [UserController::class, 'main'])->name('main-get');
+Route::post('/main', [UserController::class, 'main'])->name('main-post');
 
 // Route::get('/main', function () {
 //     return view('main');
@@ -41,7 +42,7 @@ Route::get('/main', [UserController::class, 'main'])->name('main-get');
 
 Route::get('/statistics', function () {
     return view('statistics');
-});
+})->name('statistics-post');
 
 Route::get('/transaction', function () {
     return view('transaction');

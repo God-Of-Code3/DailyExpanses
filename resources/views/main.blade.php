@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('title')
-Главная 2
+Главная
 @endsection
 
 @section('background')
@@ -18,7 +18,7 @@
 		Остаток
 		<div class="t-1">45 134,04 Р</div>
 	</x-panel>
-	<button>Добавить траанзакцию</button>
+	<button data-action data-action-click='activate' data-action-click-data='transaction-setting-modal'>Добавить транзакцию</button>
 @endsection
 
 @section('content-down')
@@ -40,15 +40,5 @@
 @endsection
 
 @section('modals')
-	
-	<!-- <div class="modal">
-		<div class="header">
-			<div class="header-element modal-close">
-				<img src="{{ asset('img/cross.svg') }}" alt="cross">
-			</div>
-			<div class="header-element page-title">Меню</div>
-			<div class="header-element"></div>
-		</div>
-		
-	</div> -->
+	<x-transaction-settings type='main' />
 @endsection

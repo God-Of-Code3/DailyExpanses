@@ -18,7 +18,7 @@
 		<div>Период<br>янв 2022</div>
 		<div>Расходы</div>
 	</div>
-	<button data-action data-action-click="activate" data-action-click-data="filter-modal">Настроить фильтры</button>
+	<button data-action data-action-click="activate" data-action-click-data="transaction-setting-modal">Настроить фильтры</button>
 	<div class="hidden active" id='diagram' data-active-group='visualisation-type'>
 		<x-diagram.diagram left='2021' right='2023' text='64 000 Р' period='янв 2022'>
 			<x-diagram.sector color='#FECE54' percent='50' />
@@ -194,25 +194,5 @@
 @endsection
 
 @section('modals')
-	<x-modal id='filter-modal' classes='modal-bottom' title='Настройки фильтра'>
-		<x-form action='history-post' button-text='Применить'>
-			<x-form.select name="type" label-text='Тип транзакций' data-action data-action-change='doSelectedOptionAction' data-action-change-data=''>
-				<option value="income">Доходы</option>
-				<option value="outcome" selected>Расходы</option>
-			</x-form.select>
-			
-			<x-form.select name="period" label-text='Период' data-action data-action-change='doSelectedOptionAction' data-action-change-data=''>
-				<option value="week" data-action data-action-select-option='deactivate' data-action-select-option-data='other-period-elements'>Неделя</option>
-				<option value="month" data-action data-action-select-option='deactivate' data-action-select-option-data='other-period-elements'>Месяц</option>
-				<option value="quarter" data-action data-action-select-option='deactivate' data-action-select-option-data='other-period-elements'>Квартал</option>
-				<option value="year" data-action data-action-select-option='deactivate' data-action-select-option-data='other-period-elements'>Год</option>
-				<option value="other" data-action data-action-select-option='activate' data-action-select-option-data='other-period-elements'>Свой период</option>
-			</x-form.select>
-
-			<div class="hidden mt-1" id='other-period-elements'>
-				<x-form.input type="date" name="start-period-date" label-text='От' horizontal/>
-				<x-form.input type="date" name="end-period-date" label-text='До' horizontal/>
-			</div>
-		</x-form>
-	</x-modal>
+	<x-transaction-settings type='statistics' />
 @endsection
