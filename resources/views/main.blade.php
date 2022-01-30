@@ -25,11 +25,12 @@
 	<div class="t-center">
 		Последние транзакции
 	</div>
-	<x-vertical-list.vertical-list>
-		<x-vertical-list.vertical-list-item sum='-10000' color='#FECE54' category-name='Электроника' />
-		<x-vertical-list.vertical-list-item sum='-1300' color='#499DFF' category-name='Транспорт' />
-		<x-vertical-list.vertical-list-item sum='1000' color='#51D600' category-name='Пополнение' />
-	</x-vertical-list.vertical-list>
+	<!-- <x-vertical-list.vertical-list>
+		<x-vertical-list.vertical-list-item sum='-10000' color='#FECE54' category-name='Электроника' icon='fas fa-bolt' />
+		<x-vertical-list.vertical-list-item sum='-1300' color='#499DFF' category-name='Транспорт' icon='fas fa-bus' />
+		<x-vertical-list.vertical-list-item sum='1000' color='#51D600' category-name='Банкомат' icon='fas fa-cash-register' />
+		<x-vertical-list.vertical-list-item sum='-7600' color='#553AFA' category-name='Одежда' icon='fas fa-tshirt' />
+	</x-vertical-list.vertical-list> -->
 	<!-- <div class="vertical-list">
 		<div class="vertical-list-item">
 			<div class="left"><div class="badge badge-yellow">Электроника</div></div>
