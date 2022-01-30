@@ -1,1 +1,1 @@
-<div class="tab @if ($active) active @endif">{{ $slot }}</div>
+<div class="tab @if ($active) active @endif" {{ $attributes }}>{{ $slot }}</div>

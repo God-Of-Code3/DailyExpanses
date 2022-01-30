@@ -40,18 +40,16 @@ const actionTypes = {
 
 // Activation actions
 $$('[data-action]').forEach(el => {
-
 	for (let actionType in actionTypes) {
 		let actionName = el.getAttribute(`data-action-${actionType}`);
 		if (actionName) {
 			let actionData = el.getAttribute(`data-action-${actionType}-data`);
 			if (actionKeys[actionName]) {
+				console.log(el);
 				actionTypes[actionType](el, (ev) => { actionKeys[actionName](actionData, ev) });
 			}
 		}
-		
-	}
-		
+	}	
 });
 
 // Material select
@@ -71,3 +69,12 @@ $$('[data-material-select]').forEach(select => {
 });
 
 // Tabs
+$$('.tabs').forEach(tabsEl => {
+	let tabs = $$('.tab', tabsEl);
+	tabs.forEach(tab => {
+		tab.addEventListener('click', () => {
+			tabs.forEach(tb => tb.classList.remove('active'));
+			tab.classList.add('active');
+		})
+	});
+});

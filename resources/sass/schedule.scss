@@ -1,7 +1,21 @@
 .schedule {
   max-width: 100%;
   position: relative;
-  height: 140px;
+  display: flex;
+  flex-direction:column;
+
+  .schedule-area {
+  	height: 160px;
+  	position: relative;
+  }
+
+  .arrows {
+  	margin-top: var(--main-padding);
+  	margin-bottom: var(--main-padding);
+  	display: flex;
+  	justify-content: space-between;
+  	align-items: center;
+  }
 }
 
 .schedule-columns {
@@ -22,7 +36,8 @@
 }
 
 .column {
-	width: 8px;
+	width: 10px;
+	min-width: calc(100% / 29);
 	height: 100%;
 	margin-left: 4px;
 	margin-top: auto;
@@ -69,7 +84,7 @@
 .indicator {
   position: absolute;
   font-size: var(--fz-5);
-  font-weight: var(--fw-4);
+  font-weight: var(--fw-3);
   width: 100%;
   text-align: right;
 }

@@ -6,14 +6,19 @@ use Illuminate\View\Component;
 
 class Schedule extends Component
 {
+    public $left;
+    public $right;
+    public $period;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($left, $right, $period)
     {
-        //
+        $this->left = $left;
+        $this->right = $right;
+        $this->period = $period;
     }
 
     /**
