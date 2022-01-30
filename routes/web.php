@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +22,11 @@ Route::get('/test', function () {
     return view('test');
 });
 
-Route::get('/login', function () {
-    return view('login');
-});
+// Route::get('/login', [UserController::class, 'login'])->name('login-get');
+
+// Страница регистрации - отображение и обработка
+Route::get('/register', [UserController::class, 'register'])->name('register-get');
+Route::post('/register', [UserController::class, 'handleRegister'])->name('register-post');
 
 Route::get('/main', function () {
     return view('main');
