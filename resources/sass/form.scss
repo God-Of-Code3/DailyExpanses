@@ -68,6 +68,10 @@ button.short {
 	width: auto;
 }
 
+button.red {
+	background: linear-gradient(93.44deg, var(--red-gradient-1) 0%, rgb(var(--red)) 100%);
+}
+
 button.short img {
 	width: 19px;
 	height: 15px;

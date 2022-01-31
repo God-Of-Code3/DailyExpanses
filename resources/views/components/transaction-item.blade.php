@@ -1,1 +1,1 @@
-<x-vertical-list.vertical-list-item sum='{{ $transaction->sum }}' color='{{ $category->color }}' category-name='{{ $category->name }}' icon='{{ $category->icon }}' />
+<x-vertical-list.vertical-list-item sum='{{ $transaction->sum }}' color='{{ $category->color }}' category-name='{{ $category->name }}' icon='{{ $category->icon }}' href='{{ route("transaction-get", ["transaction_id" => $transaction->id]) }}'/>

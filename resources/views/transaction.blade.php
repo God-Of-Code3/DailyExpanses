@@ -19,13 +19,13 @@
 @section('content-up')
 	<div class="panel container">
 		<div class="t-center">
-			<div class="value value-big">
-				-48 000 Р
+			<div class="value value-big {{ $valueClass }}">
+				{{ $sum }}
 			</div>
 		</div>
 		<div class="row row-jcsb">
 			Категория
-			<div class="badge badge-yellow">Электроника</div>
+			<x-badge color='{{ $category->color }}' icon='{{ $category->icon }}'>{{ $category->name }}</x-badge>
 		</div>
 	</div>
 	<div class="panel container">
@@ -34,12 +34,16 @@
 		</div>
 		<div class="row row-jcsb">
 			<div class="">Дата</div>
-			<div class="">7 янв 2022</div>
+			<div class="">{{ $date }}</div>
 		</div>
 		<div class="row row-jcsb">
 			<div class="">Время</div>
-			<div class="">15:03</div>
+			<div class="">{{ $time }}</div>
 		</div>
+	</div>
+	<div class="row-2">
+		<button>Изменить</button>
+		<button class='red' data-action data-action-click='locate' data-action-click-data='{{ route("transaction-get-remove", ["transaction_id"=>$transaction->id]) }}'>Удалить</button>
 	</div>
 	<button>Сделать базовым</button>
 @endsection

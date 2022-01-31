@@ -15,6 +15,8 @@ const activate = (id, ev) => {
 
 const deactivate = (id, ev) => $(`#${id}`).classList.remove('active');
 
+const locate = (link, ev) => window.location.href = link;
+
 const doSelectedOptionAction = (data, ev) => {
 	let select = ev.target;
 	let value = select.value;
@@ -30,7 +32,8 @@ const doSelectedOptionAction = (data, ev) => {
 const actionKeys = {
 	'activate': activate,
 	'deactivate': deactivate,
-	'doSelectedOptionAction': doSelectedOptionAction
+	'doSelectedOptionAction': doSelectedOptionAction,
+	'locate': locate,
 }
 
 const actionTypes = {

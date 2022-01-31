@@ -37,6 +37,10 @@ Route::post('/login', [UserController::class, 'handleLogin'])->name('login-post'
 Route::get('/main', [UserController::class, 'main'])->name('main-get');
 Route::post('/main', [TransactionController::class, 'createTransaction'])->name('main-post');
 
+// Страница транзакции, удаление и редактирование транзакции
+Route::get('/transaction/{transaction_id}', [TransactionController::class, 'transaction'])->name('transaction-get');
+Route::get('/transaction/{transaction_id}/remove', [TransactionController::class, 'removeTransaction'])->name('transaction-get-remove');
+
 // Route::get('/main', function () {
 //     return view('main');
 // })->name('main-get');
@@ -45,9 +49,9 @@ Route::get('/statistics', function () {
     return view('statistics');
 })->name('statistics-post');
 
-Route::get('/transaction', function () {
-    return view('transaction');
-});
+// Route::get('/transaction', function () {
+//     return view('transaction');
+// })->name('transaction-get');
 
 Route::get('/transactions', function () {
     return view('transactions');

@@ -15,6 +15,8 @@ body {
 	--light-green:  #5ED600;
 	--red: 254, 73, 33;
 	--gray: #F8F8F8;
+	--red-gradient-1: #FB6060;
+	--red-gradient-2: #A10A0A;
 
 	--main-color: var(--green);
 	--main-color-rgb: var(--green-rgb);
@@ -256,6 +258,12 @@ body {
 
 .row {
 	display: flex;
+}
+
+.row-2 {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: var(--main-padding);
 }
 
 .row-jcsb {

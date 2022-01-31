@@ -13,18 +13,20 @@ class VerticalListItem extends Component
     public $sumText;
     public $sum;
     public $icon;
+    public $href;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($sum, $color, $categoryName, $icon)
+    public function __construct($sum, $color, $categoryName, $icon, $href)
     {
         $this->sumText = TransactionController::formatSum($sum);
         $this->color = $color;
         $this->categoryName = $categoryName;
         $this->positive = $sum > 0;
         $this->icon = $icon;
+        $this->href = $href;
 
         if ($this->positive) {
             $this->sumText = "+".$this->sumText;

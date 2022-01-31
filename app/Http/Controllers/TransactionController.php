@@ -46,7 +46,75 @@ class TransactionController extends Controller
         }  
     }
 
-    public static function formatSum($sum) {
-        return number_format($sum, 2, ',', ' ')." ₽";
+    public function transaction($transaction_id) {
+        if (!Auth::check()) {
+            return redirect()->to(route('main-get'));
+        }
+        $user = User::find(Auth::user()->id);
+        $transaction = Transaction::where('user_id', '=', $user->id)->find($transaction_id);
+
+        if ($transaction) {
+            $category = Category::find($transaction->category_id);
+
+            $strDatetime = strtotime($transaction->created_at);
+
+            $monthes = [
+                "Jan" => 'янв',
+                "Feb" => 'фев',
+                "Mar" => 'мар',
+                "Apr" => 'апр',
+                "May" => 'май',
+                "Jun" => 'июн',
+                "Jul" => 'июл',
+                "Aug" => 'авг',
+                "Sep" => 'сен',
+                "Oct" => 'окт',
+                "Nov" => 'ноя',
+                "Dec" => 'дек',
+            ];
+
+            $time = date('H:i:s', $strDatetime);
+            $date = date('d M Y', $strDatetime);
+
+            foreach ($monthes as $from => $to) {
+                $date = str_replace($from, $to, $date);
+            }
+
+            $date = ltrim($date, '0');
+
+            return view('transaction', [
+                'transaction' => $transaction,
+                'sum' => $this->formatSum($transaction->sum, true), 
+                'category' => $category, 
+                'time' => $time, 
+                'date' => $date,
+                'valueClass' => $transaction->sum > 0 ? 'green' : 'red'
+            ]);
+        } else {
+            return redirect()->to(route('main-get')); 
+        }
+    }
+
+    public function removeTransaction($transaction_id) {
+        if (!Auth::check()) {
+            return redirect()->to(route('main-get'));
+        }
+        $user = User::find(Auth::user()->id);
+        $transaction = Transaction::where('user_id', '=', $user->id)->find($transaction_id);
+
+        if ($transaction) {
+            $user->money -= $transaction->sum;
+            $user->save();
+            $transaction->delete();
+        }
+        return redirect()->to(route('main-get'));
+    }
+
+    public static function formatSum($sum, $addPlus=false) {
+        $str = number_format($sum, 2, ',', ' ')." ₽";
+        if ($addPlus and $sum > 0) {
+            $str = "+".$str;
+        }
+        return $str;
     }
 }
