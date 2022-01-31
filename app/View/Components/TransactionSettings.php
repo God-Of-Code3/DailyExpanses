@@ -4,12 +4,18 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
+use App\Http\Controllers\TransactionController;
+
 class TransactionSettings extends Component
 {
     public $type;
     public $buttonText;
     public $title;
     public $action;
+
+    public $allCategories;
+    public $incomeCategories;
+    public $outcomeCategories;
     // Переменные, отвечающие за отображение или неотображение данных
     public $renderAllTypesOption; // Опция "Все транзакции (Доходы и расходы)"
     public $renderAllCategories; // Кнопка "Все категории"
@@ -63,6 +69,8 @@ class TransactionSettings extends Component
                 // code...
                 break;
         }
+
+        $this->getCategories();
     }
 
     /**
@@ -70,8 +78,22 @@ class TransactionSettings extends Component
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
+
+    public function getCategories() {
+        if ($this->renderCategories) {
+            $trsController = new TransactionController();
+            if ($this->renderAllCategories) {
+                $this->allCategories = $trsController->getCategories();
+            }
+
+            $this->incomeCategories = $trsController->getCategories('income');
+            $this->outcomeCategories = $trsController->getCategories('outcome');
+        }
+    }
+
     public function render()
     {
         return view('components.transaction-settings');
+
     }
 }

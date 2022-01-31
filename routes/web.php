@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,7 @@ Route::post('/login', [UserController::class, 'handleLogin'])->name('login-post'
 
 // Главная страница
 Route::get('/main', [UserController::class, 'main'])->name('main-get');
-Route::post('/main', [UserController::class, 'main'])->name('main-post');
+Route::post('/main', [TransactionController::class, 'createTransaction'])->name('main-post');
 
 // Route::get('/main', function () {
 //     return view('main');

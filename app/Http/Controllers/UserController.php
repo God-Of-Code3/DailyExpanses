@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -55,7 +56,8 @@ class UserController extends Controller
         if (!Auth::check()) {
             return redirect()->to(route('login-get'))->withErrors(['form' => 'Войдите в аккаунт']);
         }
+        $transactions = Transaction::where('user_id', '=', Auth::user()->id)->orderBy('created_at', 'desc')->get();
 
-        return view('main');
+        return view('main', ['transactions' => $transactions]);
     }
 }

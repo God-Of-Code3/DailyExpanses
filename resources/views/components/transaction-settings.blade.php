@@ -24,7 +24,7 @@
         @endif
 
         @if ($renderSum)
-            <x-form.input type="number" name="start-period-date" label-text='Сумма, ₽'/>
+            <x-form.input type="number" name="sum" label-text='Сумма, ₽'/>
         @endif
 
         @if ($renderCategories)
@@ -33,10 +33,10 @@
                     @if ($renderAllCategories)
                         <div class="selectable selected" data-value='0'><x-badge color='#fff' inverse icon="fas fa-circle">Все категории</x-badge></div>
                     @endif
-                    <div class="selectable" data-value='1'><x-badge color='#FECE54' icon='fas fa-bolt'>Электроника</x-badge></div>
-                    <div class="selectable" data-value='2'><x-badge color='#5DCF76' icon='fas fa-utensils'>Продукты</x-badge></div>
-                    <div class="selectable" data-value='3'><x-badge color='#499DFF' icon='fas fa-bus'>Транспорт</x-badge></div>
-                    <div class="selectable" data-value='4'><x-badge color='#C549FF' icon='fas fa-long-arrow-alt-right'>Переводы</x-badge></div>
+                    <!-- Отображение всех расходных транзакций -->
+                    @foreach ($outcomeCategories as $category)
+                        <div class="selectable" data-value='{{ $category->id }}'><x-badge color='{{ $category->color }}' icon='{{ $category->icon }}'>{{ $category->name }}</x-badge></div>
+                    @endforeach
                 </x-form.material-select>
             </div>
             <div class="hidden mt-1" id='income-categories' data-active-group='categories'>
@@ -44,8 +44,10 @@
                     @if ($renderAllCategories)
                         <div class="selectable selected" data-value='0'><x-badge color='#fff' inverse icon="fas fa-circle">Все категории</x-badge></div>
                     @endif
-                    <div class="selectable" data-value='1'><x-badge color='#5ED600' icon='fas fa-cash-register'>Банкомат</x-badge></div>
-                    <div class="selectable" data-value='2'><x-badge color='#5DCF76' icon='fas fa-long-arrow-alt-left'>Переводы</x-badge></div>
+                    <!-- Отображение всех доходных транзакций -->
+                    @foreach ($incomeCategories as $category)
+                        <div class="selectable" data-value='{{ $category->id }}'><x-badge color='{{ $category->color }}' icon='{{ $category->icon }}'>{{ $category->name }}</x-badge></div>
+                    @endforeach
                 </x-form.material-select>
             </div>
             @if ($renderAllTypesOption)
@@ -54,12 +56,10 @@
                         @if ($renderAllCategories)
                             <div class="selectable selected" data-value='0'><x-badge color='#fff' inverse icon="fas fa-circle">Все категории</x-badge></div>
                         @endif
-                        <div class="selectable" data-value='1'><x-badge color='#FECE54' icon='fas fa-bolt'>Электроника</x-badge></div>
-                        <div class="selectable" data-value='2'><x-badge color='#5DCF76' icon='fas fa-utensils'>Продукты</x-badge></div>
-                        <div class="selectable" data-value='3'><x-badge color='#499DFF' icon='fas fa-bus'>Транспорт</x-badge></div>
-                        <div class="selectable" data-value='4'><x-badge color='#C549FF' icon='fas fa-long-arrow-alt-right'>Переводы</x-badge></div>
-                        <div class="selectable" data-value='1'><x-badge color='#5ED600' icon='fas fa-cash-register'>Банкомат</x-badge></div>
-                        <div class="selectable" data-value='2'><x-badge color='#5DCF76' icon='fas fa-long-arrow-alt-left'>Переводы</x-badge></div>
+                        <!-- Отображение всех транзакций -->
+                        @foreach ($allCategories as $category)
+                            <div class="selectable" data-value='{{ $category->id }}'><x-badge color='{{ $category->color }}' icon='{{ $category->icon }}'>{{ $category->name }}</x-badge></div>
+                        @endforeach
                     </x-form.material-select>
                 </div>
             @endif
