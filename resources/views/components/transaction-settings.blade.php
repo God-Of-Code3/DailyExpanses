@@ -24,7 +24,7 @@
         @endif
 
         @if ($renderSum)
-            <x-form.input type="number" name="sum" label-text='Сумма, ₽'/>
+            <x-form.input type="number" name="sum" label-text='Сумма, ₽' step='0.01'/>
         @endif
 
         @if ($renderCategories)

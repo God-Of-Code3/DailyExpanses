@@ -16,7 +16,7 @@
 @section('content-up')
 	<x-panel>
 		Остаток
-		<div class="t-1">45 134,04 Р</div>
+		<div class="t-1">{{ $money }}</div>
 	</x-panel>
 	<button data-action data-action-click='activate' data-action-click-data='transaction-setting-modal'>Добавить транзакцию</button>
 @endsection

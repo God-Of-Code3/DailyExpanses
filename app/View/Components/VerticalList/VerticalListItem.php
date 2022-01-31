@@ -3,6 +3,7 @@
 namespace App\View\Components\VerticalList;
 
 use Illuminate\View\Component;
+use App\Http\Controllers\TransactionController;
 
 class VerticalListItem extends Component
 {
@@ -19,7 +20,7 @@ class VerticalListItem extends Component
      */
     public function __construct($sum, $color, $categoryName, $icon)
     {
-        $this->sumText = number_format($sum, 0, '', ' ')." ₽";
+        $this->sumText = TransactionController::formatSum($sum);
         $this->color = $color;
         $this->categoryName = $categoryName;
         $this->positive = $sum > 0;

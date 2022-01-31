@@ -27,6 +27,10 @@ class TransactionController extends Controller
         } else {
             $data = $req->all();
 
+            if ($data['sum'] <= 0) {
+                return redirect()->to(route('main-get'))->withErrors('form', 'Сумма должна быть больше 0'); 
+            }
+
             $transaction = new Transaction();
             $transaction->sum = $data['type'] == 'outcome' ? -$data['sum'] : $data['sum'];
             $transaction->user_id = Auth::user()->id;
@@ -34,9 +38,15 @@ class TransactionController extends Controller
 
             $transaction->save();
 
+            $user = User::find(Auth::user()->id);
+            $user->money = $user->money + $transaction->sum;
+            $user->save();
+
             return redirect()->to(route('main-get'));
         }  
     }
 
-    
+    public static function formatSum($sum) {
+        return number_format($sum, 2, ',', ' ')." ₽";
+    }
 }
