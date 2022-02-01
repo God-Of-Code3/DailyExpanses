@@ -48,7 +48,6 @@ $$('[data-action]').forEach(el => {
 		if (actionName) {
 			let actionData = el.getAttribute(`data-action-${actionType}-data`);
 			if (actionKeys[actionName]) {
-				console.log(el);
 				actionTypes[actionType](el, (ev) => { actionKeys[actionName](actionData, ev) });
 			}
 		}
@@ -59,8 +58,13 @@ $$('[data-action]').forEach(el => {
 $$('[data-material-select]').forEach(select => {
 	let selectableElements = $$('.selectable[data-value]', select);
 	let selectInput = $('input[data-material-select-input]', select);
+	let value = $('.row[data-value]', select).dataset.value;
 
+	console.log(value);
 	selectableElements.forEach(el => {
+		if (el.dataset.value == value) {
+			el.classList.add('selected');
+		}
 		el.onclick = () => {
 			selectInput.value = el.dataset.value;
 			$$('.selected', select).forEach(selected => {
@@ -79,5 +83,16 @@ $$('.tabs').forEach(tabsEl => {
 			tabs.forEach(tb => tb.classList.remove('active'));
 			tab.classList.add('active');
 		})
+	});
+});
+
+// Setting select default data
+$$('select[value]').forEach(sel => {
+	let options = $$('option', sel);
+	let value = sel.getAttribute('value');
+	options.forEach(option => {
+		if (option.value == value) {
+			option.setAttribute('selected', true);
+		}
 	});
 });
