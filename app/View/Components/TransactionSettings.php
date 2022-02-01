@@ -22,13 +22,35 @@ class TransactionSettings extends Component
     public $renderPeriod; // Выбор периода
     public $renderCategories; // Выбор категории
     public $renderSum; // Сумма транзакции
+
+    // Данные формы
+    public $typeValue;
+    public $periodValue;
+    public $fromValue;
+    public $toValue;
+    public $sumValue;
+    public $outcomeCategoryValue;
+    public $incomeCategoryValue;
+    public $allCategoryValue;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($type)
+    public function __construct($type, $typeValue='', $periodValue='', $fromValue='', $toValue='', $sumValue=0, $outcomeCategoryValue=0, $incomeCategoryValue=0, $allCategoryValue=0)
     {
+        // Передача данных форм
+        $this->typeValue = $typeValue;
+        $this->periodValue = $periodValue;
+        $this->fromValue = $fromValue;
+        $this->toValue = $toValue;
+        $this->sumValue = $sumValue;
+        $this->outcomeCategoryValue = $outcomeCategoryValue;
+        $this->incomeCategoryValue = $incomeCategoryValue;
+        $this->allCategoryValue = $allCategoryValue;
+
+        // Обозначение отражаемых данных
         $this->type = $type;
 
         switch ($this->type) {
