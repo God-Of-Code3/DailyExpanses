@@ -117,4 +117,27 @@ class TransactionController extends Controller
         }
         return $str;
     }
+
+    public function editTransaction(Request $req) {
+        if (!Auth::check()) {
+            return redirect()->to(route('main-get'));
+        }
+        $user = User::find(Auth::user()->id);
+        $data = $req->all();
+        
+        $transaction_id = $data['transaction-id'];
+        $transaction = Transaction::where('user_id', '=', $user->id)->find($transaction_id);
+
+        if ($transaction) {
+            $user->money -= $transaction->sum;
+
+            $transaction->sum = $data['type'] == 'outcome' ? -$data['sum'] : $data['sum'];
+            $transaction->category_id = $data["category-$data[type]"];
+
+            $transaction->save();
+            $user->money = $user->money + $transaction->sum;
+            $user->save();
+        }
+        return redirect()->to(route('transaction-get', ['transaction_id' => $transaction->id]));
+    }
 }

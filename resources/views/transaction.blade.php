@@ -42,7 +42,7 @@
 		</div>
 	</div>
 	<div class="row-2">
-		<button>Изменить</button>
+		<button data-action data-action-click='activate' data-action-click-data='transaction-setting-modal'>Изменить</button>
 		<button class='red' data-action data-action-click='locate' data-action-click-data='{{ route("transaction-get-remove", ["transaction_id"=>$transaction->id]) }}'>Удалить</button>
 	</div>
 	<button>Сделать базовым</button>
@@ -51,5 +51,11 @@
 	
 
 @section('modals')
-
+	<x-transaction-settings 
+		type='transaction' 
+		transaction-id='{{ $transaction->id }}' 
+		type-value='{{ $transaction->sum < 0 ? "outcome" : "income" }}'
+		sum-value='{{ abs($transaction->sum) }}'
+		category-value='{{ $category->id }}'
+	/>
 @endsection

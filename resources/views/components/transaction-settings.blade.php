@@ -28,8 +28,8 @@
         @endif
 
         @if ($renderCategories)
-            <div class="hidden mt-1 active" data-active-group='categories' id='outcome-categories'>
-                <x-form.material-select name='category-outcome' label-text='Категория' value='{{ $outcomeCategoryValue }}'>
+            <div class="hidden mt-1 @if($typeValue == 'outcome' or !$typeValue) active @endif" data-active-group='categories' id='outcome-categories'>
+                <x-form.material-select name='category-outcome' label-text='Категория' value='{{ $categoryValue }}'>
                     @if ($renderAllCategories)
                         <div class="selectable selected" data-value='0'><x-badge color='#fff' inverse icon="fas fa-circle">Все категории</x-badge></div>
                     @endif
@@ -39,8 +39,8 @@
                     @endforeach
                 </x-form.material-select>
             </div>
-            <div class="hidden mt-1" id='income-categories' data-active-group='categories'>
-                <x-form.material-select name='category-income' label-text='Категория' value='{{ $incomeCategoryValue }}'>
+            <div class="hidden mt-1 @if($typeValue == 'income') active @endif" id='income-categories' data-active-group='categories'>
+                <x-form.material-select name='category-income' label-text='Категория' value='{{ $categoryValue }}'>
                     @if ($renderAllCategories)
                         <div class="selectable selected" data-value='0'><x-badge color='#fff' inverse icon="fas fa-circle">Все категории</x-badge></div>
                     @endif
@@ -51,8 +51,8 @@
                 </x-form.material-select>
             </div>
             @if ($renderAllTypesOption)
-                <div class="hidden mt-1" id='all-categories' data-active-group='categories'>
-                    <x-form.material-select name='category-all' label-text='Категория' value='{{ $allCategoryValue }}'>
+                <div class="hidden mt-1 @if($typeValue == 'all') active @endif" id='all-categories' data-active-group='categories'>
+                    <x-form.material-select name='category-all' label-text='Категория' value='{{ $categoryValue }}'>
                         @if ($renderAllCategories)
                             <div class="selectable selected" data-value='0'><x-badge color='#fff' inverse icon="fas fa-circle">Все категории</x-badge></div>
                         @endif
@@ -64,5 +64,7 @@
                 </div>
             @endif
         @endif
+
+        <x-form.input type='hidden' name='transaction-id' value='{{ $transactionId }}' />
     </x-form>
 </x-modal>

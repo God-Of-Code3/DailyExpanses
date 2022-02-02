@@ -29,16 +29,15 @@ class TransactionSettings extends Component
     public $fromValue;
     public $toValue;
     public $sumValue;
-    public $outcomeCategoryValue;
-    public $incomeCategoryValue;
-    public $allCategoryValue;
+    public $categoryValue;
+    public $transactionId;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($type, $typeValue='', $periodValue='', $fromValue='', $toValue='', $sumValue=0, $outcomeCategoryValue=0, $incomeCategoryValue=0, $allCategoryValue=0)
+    public function __construct($type, $typeValue='', $periodValue='', $fromValue='', $toValue='', $sumValue=0, $categoryValue=0, $transactionId=0)
     {
         // Передача данных форм
         $this->typeValue = $typeValue;
@@ -46,9 +45,9 @@ class TransactionSettings extends Component
         $this->fromValue = $fromValue;
         $this->toValue = $toValue;
         $this->sumValue = $sumValue;
-        $this->outcomeCategoryValue = $outcomeCategoryValue;
-        $this->incomeCategoryValue = $incomeCategoryValue;
-        $this->allCategoryValue = $allCategoryValue;
+        $this->categoryValue = $categoryValue;
+
+        $this->transactionId = $transactionId;
 
         // Обозначение отражаемых данных
         $this->type = $type;
@@ -86,6 +85,16 @@ class TransactionSettings extends Component
                 $this->renderSum = false;
                 $this->action = 'statistics-post';
                 break;
+
+            case 'transaction':
+                $this->title = 'Настройки транзакции';
+                $this->buttonText = 'Сохранить';
+                $this->renderAllCategories = false;
+                $this->renderAllTypesOption = false;
+                $this->renderPeriod = false;
+                $this->renderCategories = true;
+                $this->renderSum = true;
+                $this->action = 'transaction-post';
 
             default:
                 // code...

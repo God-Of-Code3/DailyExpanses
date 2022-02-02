@@ -41,6 +41,8 @@ Route::post('/main', [TransactionController::class, 'createTransaction'])->name(
 Route::get('/transaction/{transaction_id}', [TransactionController::class, 'transaction'])->name('transaction-get');
 Route::get('/transaction/{transaction_id}/remove', [TransactionController::class, 'removeTransaction'])->name('transaction-get-remove');
 
+Route::post('/transaction', [TransactionController::class, 'editTransaction'])->name('transaction-post');
+
 // Route::get('/main', function () {
 //     return view('main');
 // })->name('main-get');

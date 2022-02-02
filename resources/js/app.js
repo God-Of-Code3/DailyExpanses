@@ -60,7 +60,6 @@ $$('[data-material-select]').forEach(select => {
 	let selectInput = $('input[data-material-select-input]', select);
 	let value = $('.row[data-value]', select).dataset.value;
 
-	console.log(value);
 	selectableElements.forEach(el => {
 		if (el.dataset.value == value) {
 			el.classList.add('selected');
