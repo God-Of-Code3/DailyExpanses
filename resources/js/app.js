@@ -63,6 +63,8 @@ $$('[data-material-select]').forEach(select => {
 	selectableElements.forEach(el => {
 		if (el.dataset.value == value) {
 			el.classList.add('selected');
+		} else if (value != null) {
+			el.classList.remove('selected');
 		}
 		el.onclick = () => {
 			selectInput.value = el.dataset.value;

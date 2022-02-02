@@ -11,6 +11,7 @@ use App\Models\User;
 
 class TransactionController extends Controller
 {
+    // Получение всех категорий или категорий определенного типа (доход/расход)
     public function getCategories($type='') {
         if ($type != '') {
             $categories = Category::where('type', '=', $type)->get();
@@ -21,35 +22,29 @@ class TransactionController extends Controller
         return $categories;
     }
 
+    // Создание транзакции
     public function createTransaction(Request $req) {
-        if (!Auth::check()) {
-            return redirect()->to(route('main-get'));
-        } else {
-            $data = $req->all();
+        $data = $req->all();
 
-            if ($data['sum'] <= 0) {
-                return redirect()->to(route('main-get'))->withErrors('form', 'Сумма должна быть больше 0'); 
-            }
+        if ($data['sum'] <= 0) { // Если сумма не положительная, то перебрасываем обратно с сообщением об ошибке
+            return redirect()->to(route('main-get'))->withErrors('form', 'Сумма должна быть больше 0'); 
+        }
 
-            $transaction = new Transaction();
-            $transaction->sum = $data['type'] == 'outcome' ? -$data['sum'] : $data['sum'];
-            $transaction->user_id = Auth::user()->id;
-            $transaction->category_id = $data["category-$data[type]"];
+        $transaction = new Transaction();
+        $transaction->sum = $data['type'] == 'outcome' ? -$data['sum'] : $data['sum']; // Если тип транзакции расход, то сумма становится отрицательной
+        $transaction->user_id = Auth::user()->id;
+        $transaction->category_id = $data["category-$data[type]"];
 
-            $transaction->save();
+        $transaction->save();
 
-            $user = User::find(Auth::user()->id);
-            $user->money = $user->money + $transaction->sum;
-            $user->save();
+        $user = User::find(Auth::user()->id);
+        $user->money = $user->money + $transaction->sum; // Добавление денег на счет пользователя
+        $user->save();
 
-            return redirect()->to(route('main-get'));
-        }  
+        return redirect()->to(route('main-get'));
     }
 
     public function transaction($transaction_id) {
-        if (!Auth::check()) {
-            return redirect()->to(route('main-get'));
-        }
         $user = User::find(Auth::user()->id);
         $transaction = Transaction::where('user_id', '=', $user->id)->find($transaction_id);
 
@@ -96,9 +91,7 @@ class TransactionController extends Controller
     }
 
     public function removeTransaction($transaction_id) {
-        if (!Auth::check()) {
-            return redirect()->to(route('main-get'));
-        }
+        
         $user = User::find(Auth::user()->id);
         $transaction = Transaction::where('user_id', '=', $user->id)->find($transaction_id);
 
@@ -119,9 +112,6 @@ class TransactionController extends Controller
     }
 
     public function editTransaction(Request $req) {
-        if (!Auth::check()) {
-            return redirect()->to(route('main-get'));
-        }
         $user = User::find(Auth::user()->id);
         $data = $req->all();
         

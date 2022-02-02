@@ -34,14 +34,18 @@ Route::get('/login', [UserController::class, 'login'])->name('login-get');
 Route::post('/login', [UserController::class, 'handleLogin'])->name('login-post');
 
 // Главная страница
-Route::get('/main', [UserController::class, 'main'])->name('main-get');
-Route::post('/main', [TransactionController::class, 'createTransaction'])->name('main-post');
+Route::get('/main', [UserController::class, 'main'])->middleware('auth')->name('main-get');
+Route::post('/main', [TransactionController::class, 'createTransaction'])->middleware('auth')->name('main-post');
 
 // Страница транзакции, удаление и редактирование транзакции
-Route::get('/transaction/{transaction_id}', [TransactionController::class, 'transaction'])->name('transaction-get');
-Route::get('/transaction/{transaction_id}/remove', [TransactionController::class, 'removeTransaction'])->name('transaction-get-remove');
+Route::get('/transaction/{transaction_id}', [TransactionController::class, 'transaction'])->middleware('auth')->name('transaction-get');
+Route::get('/transaction/{transaction_id}/remove', [TransactionController::class, 'removeTransaction'])->middleware('auth')->name('transaction-get-remove');
 
-Route::post('/transaction', [TransactionController::class, 'editTransaction'])->name('transaction-post');
+Route::post('/transaction', [TransactionController::class, 'editTransaction'])->middleware('auth')->name('transaction-post');
+
+// Страница истории
+Route::get('/history', [UserController::class, 'history'])->middleware('auth')->name('history-get');
+Route::post('/history', [UserController::class, 'history'])->middleware('auth')->name('history-post');
 
 // Route::get('/main', function () {
 //     return view('main');
@@ -63,13 +67,13 @@ Route::get('/forecast', function () {
     return view('forecast');
 })->name('forecast-get');
 
-Route::get('/history', function () {
-    return view('history');
-})->name('history-get');
+// Route::get('/history', function () {
+//     return view('history');
+// })->name('history-get');
 
-Route::post('/history', function () {
-    return view('history');
-})->name('history-post');
+// Route::post('/history', function () {
+//     return view('history');
+// })->name('history-post');
 
 Route::get('/export', function () {
     return view('export');

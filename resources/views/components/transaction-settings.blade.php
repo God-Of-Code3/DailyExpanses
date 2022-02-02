@@ -17,7 +17,7 @@
                 <option value="other" data-action data-action-select-option='activate' data-action-select-option-data='other-period-elements'>Свой период</option>
             </x-form.select>
 
-            <div class="hidden mt-1" id='other-period-elements'>
+            <div class="hidden mt-1 @if ($periodValue == 'other') active @endif" id='other-period-elements'>
                 <x-form.input type="date" name="start-period-date" label-text='От' value="{{ $fromValue }}" horizontal/>
                 <x-form.input type="date" name="end-period-date" label-text='До' value="{{ $toValue }}" horizontal/>
             </div>
