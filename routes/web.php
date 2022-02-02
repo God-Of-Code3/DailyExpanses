@@ -53,7 +53,7 @@ Route::post('/history', [UserController::class, 'history'])->middleware('auth')-
 
 Route::get('/statistics', function () {
     return view('statistics');
-})->name('statistics-post');
+})->name('statistics-get');
 
 // Route::get('/transaction', function () {
 //     return view('transaction');

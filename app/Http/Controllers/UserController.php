@@ -92,6 +92,17 @@ class UserController extends Controller
         $end = date('Y-m-t 23:59:59');
         $category = null;
 
+        $nullComparison = '<>';
+        $typeText = 'Доходы и расходы';
+
+        $settings = [
+            "period" => 'month',
+            "category" => '0',
+            "type" => 'all',
+            "start-period-date" => date("d.m.Y"),
+            "end-period-date" => date("d.m.Y"),
+        ];
+
         if ($data) {
             $period = $data['period'];
             
@@ -143,10 +154,14 @@ class UserController extends Controller
             }
             $data['category'] = $data["category-$data[type]"];
             $category = Category::find($data['category']);
+
+            $nullComparison = $data['type'] == 'all' ? '<>' : ($data['type'] == 'income' ? '>' : '<');
+            $typeText = $data['type'] == 'all' ? 'Доходы и расходы' : ($data['type'] == 'income' ? 'Доходы' : 'Расходы');
+        } else {
+            $data = $settings;
         }
 
-        $nullComparison = $data['type'] == 'all' ? '<>' : ($data['type'] == 'income' ? '>' : '<');
-        $typeText = $data['type'] == 'all' ? 'Доходы и расходы' : ($data['type'] == 'income' ? 'Доходы' : 'Расходы');
+        
 
         if (!$category) {
             $transactions = Transaction::where('user_id', '=', $user->id)
@@ -164,7 +179,6 @@ class UserController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
-        
 
         return view('history', ['transactions' => $transactions, 'periodText' => $periodText, 'settings' => $data, 'category' => $category, 'typeText' => $typeText]);
     }

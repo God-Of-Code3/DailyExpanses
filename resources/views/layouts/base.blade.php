@@ -43,14 +43,15 @@
 		@yield('modals')
 	</main>
 	<x-modal title='Меню' id='menu' classes='modal'>
-		<x-menu.menu>
-			<x-menu.menu-item active>Главная</x-menu.menu-item>
-			<x-menu.menu-item>Статистика</x-menu.menu-item>
-			<x-menu.menu-item>Транзакции</x-menu.menu-item>
+		<!-- <x-menu.menu>
+			<x-menu.menu-item href='main-get'>Главная</x-menu.menu-item>
+			<x-menu.menu-item href='statistics-get'>Статистика</x-menu.menu-item>
+			<x-menu.menu-item href='history-get'>История</x-menu.menu-item>
 			<x-menu.menu-item>Прогноз</x-menu.menu-item>
 			<x-menu.menu-item>Экспорт данных</x-menu.menu-item>
 			<x-menu.menu-item disabled>Базовый товар (не выбран)</x-menu.menu-item>
-		</x-menu.menu>
+		</x-menu.menu> -->
+		@yield('menu')
 	</x-modal>
 	<script src='/js/app.js'></script>
 	<script src='/js/diagram.js'></script>

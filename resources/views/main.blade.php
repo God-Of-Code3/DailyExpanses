@@ -36,3 +36,7 @@
 @section('modals')
 	<x-transaction-settings type='main' />
 @endsection
+
+@section('menu')
+	<x-menu.real-menu page='main' />
+@endsection

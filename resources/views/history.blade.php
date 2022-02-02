@@ -46,3 +46,7 @@
 		toValue='{{ $settings["end-period-date"] ? $settings["end-period-date"] : "" }}'
 	/>
 @endsection
+
+@section('menu')
+	<x-menu.real-menu page='history' />
+@endsection

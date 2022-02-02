@@ -8,15 +8,17 @@ class MenuItem extends Component
 {
     public $active;
     public $disabled;
+    public $href;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($active=false, $disabled=false)
+    public function __construct($active=false, $disabled=false, $href='')
     {
         $this->active = $active;
         $this->disabled = $disabled;
+        $this->href = $href;
     }
 
     /**

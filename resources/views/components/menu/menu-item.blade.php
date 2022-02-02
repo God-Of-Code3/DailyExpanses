@@ -1,1 +1,1 @@
-<li {{ $attributes }} class='menu-item @if ($active) active @endif @if ($disabled) disabled @endif'>{{ $slot }}</li>
+<li {{ $attributes }} @if ($href) data-action data-action-click='locate' data-action-click-data='{{ route($href) }}' @endif class='menu-item @if ($active) active @endif @if ($disabled) disabled @endif'>{{ $slot }}</li>
