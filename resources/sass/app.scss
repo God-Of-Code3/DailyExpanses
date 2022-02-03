@@ -339,6 +339,23 @@ body {
 	}
 }
 
+.errors {
+	display: grid;
+	grid-gap: var(--main-padding);
+	padding-left: 0;
+	list-style: none;
+
+	li {
+		padding: var(--main-padding);
+		border-radius: var(--border-radius);
+		background-color: rgba(255, 0, 0, 0.1);
+		border: 2px solid rgba(255, 0, 0, 0.2);
+		backdrop-filter: var(--panel-effect);
+		box-shadow: var(--panel-box-shadow);
+		width: 100%;
+	}
+}
+
 /* Body  */
 
 .background-effect {

@@ -26,14 +26,23 @@ class TransactionController extends Controller
     public function createTransaction(Request $req) {
         $data = $req->all();
 
-        if ($data['sum'] <= 0) { // Если сумма не положительная, то перебрасываем обратно с сообщением об ошибке
-            return redirect()->to(route('main-get'))->withErrors('form', 'Сумма должна быть больше 0'); 
-        }
-
         $transaction = new Transaction();
         $transaction->sum = $data['type'] == 'outcome' ? -$data['sum'] : $data['sum']; // Если тип транзакции расход, то сумма становится отрицательной
         $transaction->user_id = Auth::user()->id;
         $transaction->category_id = $data["category-$data[type]"];
+
+        $errors = [];
+        if ($data['sum'] <= 0) { // Если сумма не положительная, то перебрасываем обратно с сообщением об ошибке
+            $errors[] = "Сумма должна быть больше нуля";
+        }
+
+        if (!Category::find($data["category-$data[type]"])) {
+            $errors[] = "Выберите категорию";
+        }
+
+        if (!empty($errors)) {
+            return redirect()->to(route('main-get'))->withErrors($errors); 
+        }
 
         $transaction->save();
 
@@ -114,7 +123,7 @@ class TransactionController extends Controller
     public function editTransaction(Request $req) {
         $user = User::find(Auth::user()->id);
         $data = $req->all();
-        
+
         $transaction_id = $data['transaction-id'];
         $transaction = Transaction::where('user_id', '=', $user->id)->find($transaction_id);
 
@@ -123,6 +132,21 @@ class TransactionController extends Controller
 
             $transaction->sum = $data['type'] == 'outcome' ? -$data['sum'] : $data['sum'];
             $transaction->category_id = $data["category-$data[type]"];
+
+            $errors = [];
+            if ($data['sum'] <= 0) { // Если сумма не положительная, то перебрасываем обратно с сообщением об ошибке
+                $errors[] = "Сумма должна быть больше нуля"; 
+            }
+
+            if (!Category::find($data["category-$data[type]"])) {
+                $errors[] = "Выберите категорию";
+            } elseif (Category::find($data["category-$data[type]"])->type != $data["type"]) {
+                $errors[] = "Выберите категорию";
+            }
+
+            if (!empty($errors)) {
+                return redirect()->to(route('transaction-get', ['transaction_id' => $transaction->id]))->withErrors($errors); 
+            }
 
             $transaction->save();
             $user->money = $user->money + $transaction->sum;

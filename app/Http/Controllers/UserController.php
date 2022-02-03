@@ -82,9 +82,8 @@ class UserController extends Controller
         return $text;
     }
 
-    public function history(Request $req) {
-        $user = User::find(Auth::user()->id);
-        $data = $req->all();
+    public function getFilterData($req) {
+        $data = session()->get('data') ? session()->get('data') : $req->all();
 
         $periodText = $this->formatMonth(date('M Y'));
 
@@ -102,6 +101,8 @@ class UserController extends Controller
             "start-period-date" => date("d.m.Y"),
             "end-period-date" => date("d.m.Y"),
         ];
+
+        $errors = [];
 
         if ($data) {
             $period = $data['period'];
@@ -152,6 +153,11 @@ class UserController extends Controller
 
                     break;
             }
+
+            if (strtotime($start) > strtotime($end)) {
+                $errors[] = 'Период не может заканчиваться раньше, чем начался';
+            }
+
             $data['category'] = $data["category-$data[type]"];
             $category = Category::find($data['category']);
 
@@ -161,7 +167,34 @@ class UserController extends Controller
             $data = $settings;
         }
 
+        return [
+            'category' => $category,
+            'nullComparison' => $nullComparison,
+            'periodText' => $periodText,
+            'typeText' => $typeText,
+            'start' => $start,
+            'end' => $end,
+            'errors' => $errors,
+            'data' => $data
+        ];
+    } 
+
+    public function history(Request $req) {
+        $user = User::find(Auth::user()->id);
         
+        $filterData = $this->getFilterData($req);
+        $start = $filterData['start'];
+        $end = $filterData['end'];
+        $errors = $filterData['errors'];
+        $periodText = $filterData['periodText'];
+        $typeText = $filterData['typeText'];
+        $data = $filterData['data'];
+        $category = $filterData['category'];
+        $nullComparison = $filterData['nullComparison'];
+
+        if (!empty($errors) and !session()->get('data')) {
+            return redirect()->to(route('history-post'))->with(['data' => $data])->withErrors($errors);
+        }
 
         if (!$category) {
             $transactions = Transaction::where('user_id', '=', $user->id)

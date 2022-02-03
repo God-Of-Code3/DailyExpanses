@@ -59,3 +59,7 @@
 		category-value='{{ $category->id }}'
 	/>
 @endsection
+
+@section('menu')
+	<x-menu.real-menu page='' />
+@endsection

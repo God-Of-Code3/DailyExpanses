@@ -1,4 +1,4 @@
-<x-modal id='transaction-setting-modal' classes='modal-bottom' title='{{ $title }}'>
+<x-modal id='transaction-setting-modal' classes='modal-bottom' title='{{ $title }}' active-on-errors='true'>
     <x-form action='{{ $action }}' button-text='{{ $buttonText }}'>
         <x-form.select name="type" label-text='Тип транзакций' data-action data-action-change='doSelectedOptionAction' data-action-change-data='' value='{{ $typeValue }}'>
             @if ($renderAllCategories)
