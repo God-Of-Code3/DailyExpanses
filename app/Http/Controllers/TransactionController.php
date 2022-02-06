@@ -53,7 +53,7 @@ class TransactionController extends Controller
         return redirect()->to(route('main-get'));
     }
 
-    public function transaction($transaction_id) {
+    public function transaction($transaction_id, $make_base=false) {
         $user = User::find(Auth::user()->id);
         $transaction = Transaction::where('user_id', '=', $user->id)->find($transaction_id);
 
@@ -77,6 +77,39 @@ class TransactionController extends Controller
                 "Dec" => 'дек',
             ];
 
+            $is_based = false;
+
+            if ($make_base) {
+                if (!session('base_transaction')) {
+
+                    session(['base_transaction' => 
+                        [
+                            'transaction_id' => $transaction->id,
+                            'transaction_sum' => abs($transaction->sum),
+                        ]
+                    ]);
+                    $is_based = true;
+                } elseif (session('base_transaction')['transaction_id'] == $transaction->id) {
+                    session()->forget('base_transaction');
+                } else {
+                    session(['base_transaction' => 
+                        [
+                            'transaction_id' => $transaction->id,
+                            'transaction_sum' => abs($transaction->sum),
+                        ]
+                    ]);
+                    $is_based = true;
+                }
+            }
+
+            if (session('base_transaction')) {
+                $is_based = session('base_transaction')['transaction_id'] == $transaction->id;
+            }
+
+            if ($make_base) {
+                return redirect()->to(route('transaction-get', ['transaction_id' => $transaction->id]));
+            }
+
             $time = date('H:i:s', $strDatetime);
             $date = date('d M Y', $strDatetime);
 
@@ -92,7 +125,8 @@ class TransactionController extends Controller
                 'category' => $category, 
                 'time' => $time, 
                 'date' => $date,
-                'valueClass' => $transaction->sum > 0 ? 'green' : 'red'
+                'valueClass' => $transaction->sum > 0 ? 'green' : 'red',
+                'is_based' => $is_based
             ]);
         } else {
             return redirect()->to(route('main-get')); 
@@ -112,10 +146,22 @@ class TransactionController extends Controller
         return redirect()->to(route('main-get'));
     }
 
-    public static function formatSum($sum, $addPlus=false) {
+    public static function formatSumToRubles($sum) {
         $str = number_format($sum, 2, ',', ' ')." ₽";
-        if ($addPlus and $sum > 0) {
-            $str = "+".$str;
+        return $str;
+    }
+
+    public static function formatSum($sum, $addPlus=false) {
+        if (!session('base_transaction')) {
+            $str = number_format($sum, 2, ',', ' ')." ₽";
+            if ($addPlus and $sum > 0) {
+                $str = "+".$str;
+            }
+        } else {
+           $str = number_format($sum / session('base_transaction')['transaction_sum'], 2, ',', ' ')." б.т.";
+            if ($addPlus and $sum > 0) {
+                $str = "+".$str;
+            } 
         }
         return $str;
     }

@@ -38,7 +38,7 @@ Route::get('/main', [UserController::class, 'main'])->middleware('auth')->name('
 Route::post('/main', [TransactionController::class, 'createTransaction'])->middleware('auth')->name('main-post');
 
 // Страница транзакции, удаление и редактирование транзакции
-Route::get('/transaction/{transaction_id}', [TransactionController::class, 'transaction'])->middleware('auth')->name('transaction-get');
+Route::get('/transaction/{transaction_id}/{make_base?}', [TransactionController::class, 'transaction'])->middleware('auth')->name('transaction-get');
 Route::get('/transaction/{transaction_id}/remove', [TransactionController::class, 'removeTransaction'])->middleware('auth')->name('transaction-get-remove');
 
 Route::post('/transaction', [TransactionController::class, 'editTransaction'])->middleware('auth')->name('transaction-post');

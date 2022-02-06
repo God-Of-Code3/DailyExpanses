@@ -3,10 +3,12 @@
 namespace App\View\Components\Menu;
 
 use Illuminate\View\Component;
+use App\Http\Controllers\TransactionController;
 
 class RealMenu extends Component
 {
     public $page;
+    public $sum;
     /**
      * Create a new component instance.
      *
@@ -21,6 +23,8 @@ class RealMenu extends Component
         ];
 
         $this->page[$page] = 'active';
+
+        $this->sum = session('base_transaction') ? TransactionController::formatSumToRubles(session('base_transaction')['transaction_sum']) : 0;
     }
 
     /**
