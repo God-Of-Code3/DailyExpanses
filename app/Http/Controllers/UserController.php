@@ -82,8 +82,108 @@ class UserController extends Controller
         return $text;
     }
 
-    public function getFilterData($req) {
-        $data = session()->get('data') ? session()->get('data') : $req->all();
+    public function getPeriodData($period, $shift) {
+        $start = null;
+        $end = null;
+        $periodText = null;
+
+        $adding = $shift > 0 ? "+ $shift" : "- ".abs($shift);
+        $addingQuarters = $shift > 0 ? "+ ".($shift * 3) : "- ".abs($shift * 3);
+        switch ($period) {
+            case 'year':
+                $start = date('Y-m-d 00:00:00', strtotime("first day of January this year $adding year"));
+                $end = date('Y-m-d 23:59:59', strtotime("last day of December this year $adding year"));
+                $periodText = date('Y', strtotime("this year $adding year"));
+                break;
+
+            case 'month':
+                $start = date('Y-m-d 00:00:00', strtotime("first day of this month $adding month"));
+                $end = date('Y-m-d 23:59:59', strtotime("last day of this month $adding month"));
+                $periodText = $this->formatMonth(date('M Y', strtotime("this month $adding month")));
+                break;
+
+            case 'week':
+                $start = date('Y-m-d 00:00:00', strtotime("monday this week $adding weeks"));
+                $end = date('Y-m-d 23:59:59', strtotime("sunday this week $adding weeks"));
+                $periodText = $this->formatMonth(date("d M - ", strtotime($start))."".date('d M', strtotime($end)));
+                break;
+
+            case 'quarter':
+                $m = date('m', strtotime("this month $addingQuarters month"));
+                $y = date('Y', strtotime("this month $addingQuarters month"));
+
+                if ($m < 4) {
+                    $start = date("$y-$m-d 00:00:00", strtotime("first day of january"));
+                    $end = date("$y-$m-d 23:59:59", strtotime("last day of march"));
+                } elseif ($m < 7) {
+                    $start = date("$y-$m-d 00:00:00", strtotime("first day of april"));
+                    $end = date("$y-$m-d 23:59:59", strtotime("last day of juny"));
+                } elseif ($m < 10) {
+                    $start = date("$y-$m-d 00:00:00", strtotime("first day of july"));
+                    $end = date("$y-$m-d 23:59:59", strtotime("last day of september"));
+                } elseif ($m > 9) {
+                    $start = date("$y-$m-d 00:00:00", strtotime("first day of october"));
+                    $end = date("$y-$m-d 23:59:59", strtotime("last day of december"));
+                }
+
+                $periodText = date((floor(($m - 1) / 3) + 1)." кв. $y");
+
+                break;
+        }
+
+        return [
+            'start' => $start,
+            'end' => $end,
+            'periodText' => $periodText,
+        ];
+    }
+
+    public function getNextPeriod($data) {
+        $period = $data['period'];
+
+        return $this->getPeriodData($period, 'next');
+    }
+
+    public function getPrevPeriod($data) {
+        $period = $data['period'];
+
+        return $this->getPeriodData($period, 'previous');
+    }
+
+    public function getPeriod($data, $shift) {
+        $period = $data['period'];
+        
+        $periodText = $this->formatMonth(date('M Y'));
+
+        $start = date('Y-m-01 00:00:00');
+        $end = date('Y-m-t 23:59:59');
+
+        if ($period == 'other') {
+            $start = date('Y-m-d 00:00:00', strtotime($data['start-period-date']));
+            $end = date('Y-m-d 23:59:59', strtotime($data['end-period-date']));
+            $periodText = $this->formatMonth(date('d M - ', strtotime($start)).date('d M', strtotime($end)));
+        } else {
+            $per = $this->getPeriodData($period, $shift);
+            $start = $per['start'];
+            $end = $per['end'];
+            $periodText = $per['periodText'];
+        }
+
+        return [
+            'start' => $start,
+            'end' => $end,
+            'periodText' => $periodText
+        ];
+    }
+
+    public function getFilterData($req, $statistics=false, $shift=0) {
+        $data = $req->all();
+
+        if ($data) {
+            session(['data' => $req->all()]);
+        } else {
+            $data = session('data');
+        }
 
         $periodText = $this->formatMonth(date('M Y'));
 
@@ -91,7 +191,7 @@ class UserController extends Controller
         $end = date('Y-m-t 23:59:59');
         $category = null;
 
-        $nullComparison = '<>';
+        $nullComparison = $statistics ? '<' : '<>';
         $typeText = 'Доходы и расходы';
 
         $settings = [
@@ -105,60 +205,16 @@ class UserController extends Controller
         $errors = [];
 
         if ($data) {
-            $period = $data['period'];
-            
-            switch ($period) {
-                case 'year':
-                    $start = date('Y-01-01 00:00:00');
-                    $end = date('Y-m-d 23:59:59', strtotime('12/31'));
-
-                    $periodText = date('Y год');
-
-                    break;
-
-                case 'week':
-                    $start = date('Y-m-d 00:00:00', strtotime('monday this week'));
-                    $end = date('Y-m-d 23:59:59', strtotime('sunday this week'));
-
-                    $periodText = $this->formatMonth(date('d M - ', strtotime($start)).date('d M', strtotime($end)));
-                    break;
-
-                case 'quarter':
-
-                    $m = date('m');
-                    if ($m < 4) {
-                        $start = date('Y-m-d 00:00:00', strtotime('first day of january'));
-                        $end = date('Y-m-d 23:59:59', strtotime('last day of march'));
-                    } elseif ($m < 7) {
-                        $start = date('Y-m-d 00:00:00', strtotime('first day of april'));
-                        $end = date('Y-m-d 23:59:59', strtotime('last day of juny'));
-                    } elseif ($m < 10) {
-                        $start = date('Y-m-d 00:00:00', strtotime('first day of july'));
-                        $end = date('Y-m-d 23:59:59', strtotime('last day of september'));
-                    } elseif ($m > 9) {
-                        $start = date('Y-m-d 00:00:00', strtotime('first day of october'));
-                        $end = date('Y-m-d 23:59:59', strtotime('last day of december'));
-                    }
-
-                    $periodText = $this->formatMonth(date('d M - ', strtotime($start)).date('d M', strtotime($end)));
-                    
-                    break;
-
-                case 'other':
-
-                    $start = date('Y-m-d 00:00:00', strtotime($data['start-period-date']));
-                    $end = date('Y-m-d 23:59:59', strtotime($data['end-period-date']));
-                    
-                    $periodText = $this->formatMonth(date('d M - ', strtotime($start)).date('d M', strtotime($end)));
-
-                    break;
-            }
+            $period = $this->getPeriod($data, $shift);
+            $start = $period['start'];
+            $end = $period['end'];
+            $periodText = $period['periodText'];
 
             if (strtotime($start) > strtotime($end)) {
                 $errors[] = 'Период не может заканчиваться раньше, чем начался';
             }
 
-            $data['category'] = $data["category-$data[type]"];
+            $data['category'] = isset($data["category-$data[type]"]) ? $data["category-$data[type]"] : "";
             $category = Category::find($data['category']);
 
             $nullComparison = $data['type'] == 'all' ? '<>' : ($data['type'] == 'income' ? '>' : '<');
@@ -192,8 +248,8 @@ class UserController extends Controller
         $category = $filterData['category'];
         $nullComparison = $filterData['nullComparison'];
 
-        if (!empty($errors) and !session()->get('data')) {
-            return redirect()->to(route('history-post'))->with(['data' => $data])->withErrors($errors);
+        if (!empty($errors) and !session()->get('errors')) {
+            return redirect()->to(route('history-post'))->with(['errors' => $errors])->withErrors($errors);
         }
 
         if (!$category) {
@@ -213,6 +269,61 @@ class UserController extends Controller
                 ->get();
         }
 
-        return view('history', ['transactions' => $transactions, 'periodText' => $periodText, 'settings' => $data, 'category' => $category, 'typeText' => $typeText]);
+        return view('history', [
+            'transactions' => $transactions, 
+            'periodText' => $periodText, 
+            'settings' => $data, 
+            'category' => $category, 
+            'typeText' => $typeText
+        ]);
+    }
+
+    public function statistics(Request $req, $shift=0) {
+        $user = User::find(Auth::user()->id);
+
+        $filterData = $this->getFilterData($req, true, $shift);
+
+        $start = $filterData['start'];
+        $end = $filterData['end'];
+        $errors = $filterData['errors'];
+        $periodText = $filterData['periodText'];
+        $typeText = $filterData['typeText'];
+        $data = $filterData['data'];
+        $nullComparison = $filterData['nullComparison'];
+
+        if (!empty($errors) and !session()->get('errors')) {
+            return redirect()->to(route('statistics-post'))->with(['errors' => $errors])->withErrors($errors);
+        }
+
+        $transactions = Transaction::where('user_id', '=', $user->id)
+            ->where('created_at', '>=', $start)
+            ->where('created_at', '<=', $end)
+            ->where('sum', $nullComparison, '0')
+            ->groupBy('category_id')
+            ->selectRaw('abs(sum(sum)) as sum, category_id')
+            ->pluck('sum','category_id');
+
+        $categories = [];
+        $sum = array_sum($transactions->toArray());
+        foreach ($transactions as $category_id => $sectorSum) {
+            $category = Category::find($category_id);
+            $categories[] = [
+                'color' => $category->color,
+                'percent' => $sectorSum / $sum * 100,
+                'sum' => $sectorSum,
+                'name' => $category->name
+            ];
+        }
+
+        uasort($categories, function ($a, $b) { return $a['percent'] < $b['percent']; });
+
+        return view('statistics', [
+            'categories' => $categories,
+            'sum' => TransactionController::formatSum($sum),
+            'periodText' => $periodText,
+            'typeText' => $typeText,
+            'shift' => $shift,
+            'settings' => $data
+        ]);
     }
 }

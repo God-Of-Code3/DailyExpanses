@@ -15,20 +15,23 @@
 
 @section('content-up')
 	<div class="row row-aic row-jcsb">
-		<div>Период<br>янв 2022</div>
-		<div>Расходы</div>
+		<div>Период<br>{{ $periodText }}</div>
+		<div>{{ $typeText }}</div>
 	</div>
 	<button data-action data-action-click="activate" data-action-click-data="transaction-setting-modal">Настроить фильтры</button>
 	<div class="hidden active" id='diagram' data-active-group='visualisation-type'>
-		<x-diagram.diagram left='2021' right='2023' text='64 000 Р' period='янв 2022'>
-			<x-diagram.sector color='#FECE54' percent='50' />
-			<x-diagram.sector color='#5DCF76' percent='33' />
+		<x-diagram.diagram left='пред.' left-action='{{ route("statistics-get", ["shift" => $shift - 1]) }}' right='след.' right-action='{{ route("statistics-get", ["shift" => $shift + 1]) }}' text='{{ $sum }}' period='{{ $periodText }}'>
+			@foreach($categories as $category)
+				<x-diagram.sector color='{{ $category["color"] }}' percent='{{ $category["percent"] }}' />
+			@endforeach
+			
+			<!-- <x-diagram.sector color='#5DCF76' percent='33' />
 			<x-diagram.sector color='#499DFF' percent='10' />
-			<x-diagram.sector color='#C549FF' percent='7' />
+			<x-diagram.sector color='#C549FF' percent='7' /> -->
 		</x-diagram.diagram>
 	</div>
 	<div class="hidden" id='schedule' data-active-group='visualisation-type'>
-		<x-schedule.schedule left='2021' right='2023' period='янв 2022'>
+		<x-schedule.schedule left='2021' right='' period='янв 2022'>
 			<div class="schedule-columns">
 				<x-schedule.column height="100" text='1'>
 					<x-schedule.column-filler height="25" color='#FECE54'/>
@@ -186,13 +189,22 @@
 		Категории расходов
 	</div>
 	<x-vertical-list.vertical-list>
-		<x-vertical-list.vertical-list-item-progress percent='50' sum='32000' color='#FECE54' category-name='Электроника' />
-		<x-vertical-list.vertical-list-item-progress percent='33' sum='21120' color='#5DCF76' category-name='Продукты' />
-		<x-vertical-list.vertical-list-item-progress percent='10' sum='6400' color='#499DFF' category-name='Транспорт' />
-		<x-vertical-list.vertical-list-item-progress percent='7' sum='4480' color='#C549FF' category-name='Категория' />
+		@foreach($categories as $category)
+			<x-vertical-list.vertical-list-item-progress percent='{{ $category["percent"] }}' sum='{{ $category["sum"] }}' color='{{ $category["color"] }}' category-name='{{ $category["name"] }}' />
+		@endforeach 
 	</x-vertical-list.vertical-list>
 @endsection
 
 @section('modals')
-	<x-transaction-settings type='statistics' />
+	<x-transaction-settings 
+		type='statistics'
+		periodValue='{{ $settings["period"] ? $settings["period"] : "" }}'
+		typeValue='{{ $settings["type"] ? $settings["type"] : "" }}'
+		fromValue='{{ $settings["start-period-date"] ? $settings["start-period-date"] : "" }}'
+		toValue='{{ $settings["end-period-date"] ? $settings["end-period-date"] : "" }}'
+	/>
+@endsection
+
+@section('menu')
+	<x-menu.real-menu page='statistics' />
 @endsection

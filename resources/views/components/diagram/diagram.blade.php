@@ -1,6 +1,6 @@
 <div class="diagram">
-    <div class="diagram-arrow arrow-prev">
-        <img src="img/prev.svg" alt="Arrow">
+    <div class="diagram-arrow arrow-prev" data-action data-action-click='locate' data-action-click-data='{{ $leftAction }}'>
+        <img src="{{ asset('img/prev.svg') }}" alt="Arrow">
         {{ $left }}
     </div>
     <div class="diagram-data">
@@ -13,8 +13,8 @@
         </x-diagram.circle>
     </div>
     
-    <div class="diagram-arrow arrow-next">
+    <div class="diagram-arrow arrow-next" data-action data-action-click='locate' data-action-click-data='{{ $rightAction }}'>
         {{ $right }}
-        <img src="img/next.svg" alt="Arrow">
+        <img src="{{ asset('img/next.svg') }}" alt="Arrow">
     </div>
 </div>

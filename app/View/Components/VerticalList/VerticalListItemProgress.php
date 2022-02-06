@@ -3,6 +3,7 @@
 namespace App\View\Components\VerticalList;
 
 use Illuminate\View\Component;
+use App\Http\Controllers\TransactionController;
 
 class VerticalListItemProgress extends Component
 {
@@ -18,7 +19,7 @@ class VerticalListItemProgress extends Component
      */
     public function __construct($sum, $color, $categoryName, $percent)
     {
-        $this->sumText = number_format($sum, 0, '', ' ')." ₽";
+        $this->sumText = TransactionController::formatSum($sum);
         $this->color = $color;
         $this->categoryName = $categoryName;
         $this->percent = $percent;

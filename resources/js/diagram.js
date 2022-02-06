@@ -24,12 +24,13 @@ function describeArc(x, y, radius1, radius2, startAngle, endAngle){
 
 	console.log(Math.abs(endAngle - startAngle), endAngle);
 	
-
+	
 	let dX2 = -Math.cos(startAngle * Math.PI / 180 - Math.PI) * arc;
 	let dY2 = -Math.sin(startAngle * Math.PI / 180 - Math.PI) * arc;
 
 	let dX1 = Math.cos(endAngle * Math.PI / 180 - Math.PI) * arc;
 	let dY1 = Math.sin(endAngle * Math.PI / 180 - Math.PI) * arc;
+	
 
 	if (Math.abs(endAngle - startAngle) < 10) {
 		dX1 = 0;

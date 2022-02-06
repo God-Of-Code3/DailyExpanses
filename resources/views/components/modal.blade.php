@@ -7,7 +7,9 @@
         <div class="header-element"></div>
     </div>
     <div class="container">
+        
         {{ $slot }}
+        
     </div>
     
 </div>

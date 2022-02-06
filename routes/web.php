@@ -47,13 +47,16 @@ Route::post('/transaction', [TransactionController::class, 'editTransaction'])->
 Route::get('/history', [UserController::class, 'history'])->middleware('auth')->name('history-get');
 Route::post('/history', [UserController::class, 'history'])->middleware('auth')->name('history-post');
 
+// Страница статистики
+Route::get('/statistics/{shift?}', [UserController::class, 'statistics'])->middleware('auth')->name('statistics-get');
+Route::post('/statistics/{shift?}', [UserController::class, 'statistics'])->middleware('auth')->name('statistics-post');
 // Route::get('/main', function () {
 //     return view('main');
 // })->name('main-get');
 
-Route::get('/statistics', function () {
-    return view('statistics');
-})->name('statistics-get');
+// Route::get('/statistics', function () {
+//     return view('statistics');
+// })->name('statistics-get');
 
 // Route::get('/transaction', function () {
 //     return view('transaction');

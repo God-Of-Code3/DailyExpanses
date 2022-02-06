@@ -10,17 +10,21 @@ class Diagram extends Component
     public $right;
     public $period;
     public $text;
+    public $leftAction;
+    public $rightAction;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($left, $right, $period, $text)
+    public function __construct($left, $right, $period, $text, $leftAction, $rightAction)
     {
         $this->left = $left;
         $this->right = $right;
         $this->period = $period;
         $this->text = $text;
+        $this->leftAction = $leftAction;
+        $this->rightAction = $rightAction;
     }
 
     /**

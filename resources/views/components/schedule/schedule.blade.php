@@ -5,7 +5,7 @@
     
     <div class="arrows">
         <div class="diagram-arrow arrow-prev">
-            <img src="img/prev.svg" alt="Arrow">
+            <img src="{{ asset('img/prev.svg') }}" alt="Arrow">
             {{ $left }}
         </div>
         <div>
@@ -13,7 +13,7 @@
         </div>
         <div class="diagram-arrow arrow-next">
             {{ $right }}
-            <img src="img/next.svg" alt="Arrow">
+            <img src="{{ asset('img/next.svg') }}" alt="Arrow">
         </div>
     </div>
 </div>
