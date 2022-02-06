@@ -50,6 +50,10 @@ Route::post('/history', [UserController::class, 'history'])->middleware('auth')-
 // Страница статистики
 Route::get('/statistics/{shift?}', [UserController::class, 'statistics'])->middleware('auth')->name('statistics-get');
 Route::post('/statistics/{shift?}', [UserController::class, 'statistics'])->middleware('auth')->name('statistics-post');
+
+// Страница прогноза
+Route::get('/forecast', [UserController::class, 'forecast'])->middleware('auth')->name('forecast-get');
+
 // Route::get('/main', function () {
 //     return view('main');
 // })->name('main-get');
@@ -66,9 +70,9 @@ Route::get('/transactions', function () {
     return view('transactions');
 });
 
-Route::get('/forecast', function () {
-    return view('forecast');
-})->name('forecast-get');
+// Route::get('/forecast', function () {
+//     return view('forecast');
+// })->name('forecast-get');
 
 // Route::get('/history', function () {
 //     return view('history');

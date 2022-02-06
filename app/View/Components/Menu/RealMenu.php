@@ -20,6 +20,7 @@ class RealMenu extends Component
             'main' => '',
             'history' => '',
             'statistics' => '',
+            'forecast' => '',
         ];
 
         $this->page[$page] = 'active';

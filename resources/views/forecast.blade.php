@@ -27,9 +27,9 @@
 			<x-tabs.tab data-action data-action-click='activate' data-action-click-data='year-forecast'>Год</x-tabs.tab>
 		</x-tabs.tabs>
 		<div class="t-center">
-			<div data-active-group='forecast' id='month-3-forecast' class="hidden active fz-1 fw-2">35 000 Р</div>
-			<div data-active-group='forecast' id='month-6-forecast' class="hidden fz-1 fw-2">34 000 Р</div>
-			<div data-active-group='forecast' id='year-forecast' class="hidden fz-1 fw-2">33 000 Р</div>
+			<div data-active-group='forecast' id='month-3-forecast' class="hidden active fz-1 fw-2">{{ $monthes['3'] }}</div>
+			<div data-active-group='forecast' id='month-6-forecast' class="hidden fz-1 fw-2">{{ $monthes['6'] }}</div>
+			<div data-active-group='forecast' id='year-forecast' class="hidden fz-1 fw-2">{{ $monthes['12'] }}</div>
 		</div>
 			
 	</x-panel>
@@ -38,4 +38,8 @@
 
 @section('modals')
 
+@endsection
+
+@section('menu')
+	<x-menu.real-menu page='forecast' />
 @endsection

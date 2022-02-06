@@ -326,4 +326,43 @@ class UserController extends Controller
             'settings' => $data
         ]);
     }
+
+    public function getCPI() {
+        $url = 'https://ru.investing.com/economic-calendar/russian-cpi-1180';
+        $ch = curl_init();
+        $userAgent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)';
+        curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $html = curl_exec($ch);
+        curl_close($ch);
+        $releaseStr = '<span>Факт.<div class="arial_14 greenFont">';
+        $start = strpos($html, $releaseStr) + strlen($releaseStr);
+        $end = strpos($html, "%</div>", $start);
+
+        $ICP = str_replace(",", ".", substr($html, $start, $end - $start));
+
+        return 1 + ($ICP / 100);
+    }
+
+    public function forecast() {
+        $user = User::find(Auth::user()->id);
+        if (session('cpi')) {
+            $cpi = session('cpi'); 
+        } else {
+            $cpi = $this->getCPI();
+            session(['cpi' => $cpi]);
+        }
+        $money = $user->money;
+        
+        $monthes = [
+            '3' => TransactionController::formatSum($money * pow($cpi, 3 / 12)),
+            '6' => TransactionController::formatSum($money * pow($cpi, 6 / 12)),
+            '12' => TransactionController::formatSum($money * pow($cpi, 12 / 12)),
+        ];
+
+        return view('forecast', [
+            'monthes' => $monthes
+        ]);
+    }
 }
