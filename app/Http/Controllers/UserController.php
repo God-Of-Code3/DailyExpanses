@@ -197,10 +197,14 @@ class UserController extends Controller
         $settings = [
             "period" => 'month',
             "category" => '0',
-            "type" => 'all',
+            "type" => 'outcome',
             "start-period-date" => date("d.m.Y"),
             "end-period-date" => date("d.m.Y"),
         ];
+
+        if (!$data) {
+            $data = $settings;
+        }
 
         $errors = [];
 

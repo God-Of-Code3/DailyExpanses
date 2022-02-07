@@ -12,12 +12,13 @@ class Diagram extends Component
     public $text;
     public $leftAction;
     public $rightAction;
+    public $null;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($left, $right, $period, $text, $leftAction, $rightAction)
+    public function __construct($left, $right, $period, $text, $leftAction, $rightAction, $null=false)
     {
         $this->left = $left;
         $this->right = $right;
@@ -25,6 +26,7 @@ class Diagram extends Component
         $this->text = $text;
         $this->leftAction = $leftAction;
         $this->rightAction = $rightAction;
+        $this->null = $null;
     }
 
     /**

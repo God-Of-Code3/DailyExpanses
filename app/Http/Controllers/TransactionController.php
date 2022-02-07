@@ -137,7 +137,7 @@ class TransactionController extends Controller
         
         $user = User::find(Auth::user()->id);
         $transaction = Transaction::where('user_id', '=', $user->id)->find($transaction_id);
-
+        // dd($transaction);
         if ($transaction) {
             $user->money -= $transaction->sum;
             $user->save();

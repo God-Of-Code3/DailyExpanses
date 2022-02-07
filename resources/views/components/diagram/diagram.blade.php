@@ -8,9 +8,13 @@
             <div class="fz-1-2 fw-1">{{ $text }}</div>
             <div class="fz-3">{{ $period }}</div>
         </div>
-        <x-diagram.circle>
-            {{ $slot }}
-        </x-diagram.circle>
+        @if (!$null)
+            <x-diagram.circle>
+                {{ $slot }}
+            </x-diagram.circle>
+        @else
+            <div class="fz-2 fw-1 diagram-placeholder">нет данных</div>
+        @endif
     </div>
     
     <div class="diagram-arrow arrow-next" data-action data-action-click='locate' data-action-click-data='{{ $rightAction }}'>

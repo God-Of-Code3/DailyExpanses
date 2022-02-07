@@ -43,7 +43,7 @@
 	</div>
 	<div class="row-2">
 		<button data-action data-action-click='activate' data-action-click-data='transaction-setting-modal'>Изменить</button>
-		<button class='red' data-action data-action-click='locate' data-action-click-data='{{ route("transaction-get-remove", ["transaction_id"=>$transaction->id]) }}'>Удалить</button>
+		<button class='red' data-action data-action-click='locate' data-action-click-data='{{ route("transaction-remove", ["transaction_id"=>$transaction->id]) }}'>Удалить</button>
 	</div>
 	@if ($is_based)
 		<button class='red' data-action data-action-click='locate' data-action-click-data='{{ route("transaction-get", ["transaction_id"=>$transaction->id, "make_base" => true]) }}'>Убрать базовый</button>

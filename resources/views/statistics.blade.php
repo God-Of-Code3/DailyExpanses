@@ -20,7 +20,7 @@
 	</div>
 	<button data-action data-action-click="activate" data-action-click-data="transaction-setting-modal">Настроить фильтры</button>
 	<div class="hidden active" id='diagram' data-active-group='visualisation-type'>
-		<x-diagram.diagram left='пред.' left-action='{{ route("statistics-get", ["shift" => $shift - 1]) }}' right='след.' right-action='{{ route("statistics-get", ["shift" => $shift + 1]) }}' text='{{ $sum }}' period='{{ $periodText }}'>
+		<x-diagram.diagram left='пред.' left-action='{{ route("statistics-get", ["shift" => $shift - 1]) }}' right='след.' right-action='{{ route("statistics-get", ["shift" => $shift + 1]) }}' text='{{ $sum }}' period='{{ $periodText }}' null='{{ !$categories }}'>
 			@foreach($categories as $category)
 				<x-diagram.sector color='{{ $category["color"] }}' percent='{{ $category["percent"] }}' />
 			@endforeach
