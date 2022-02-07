@@ -349,6 +349,82 @@ class UserController extends Controller
         return 1 + ($ICP / 100);
     }
 
+    public function getForecast($user) {
+
+        $monthNumber = date('Y') * 12 + (int)date('m');
+        $startUsingMonth = date('Y' , strtotime($user->created_at)) * 12 + (int)date('m' , strtotime($user->created_at));
+
+        $transactions = Transaction::where('user_id', '=', $user->id)
+            ->where('sum', '<', '0')
+            ->groupByRaw("Year(created_at) * 12 + Month(created_at)")
+            ->selectRaw("abs(sum(sum)) as sum, (Year(created_at) * 12 +  Month(created_at)) AS month")
+            ->pluck('sum','month');
+
+        $i = 0;
+
+        $sX = 0;
+        $sY = 0;
+        $sXY = 0;
+        $sXSq = 0;
+        $n = 0;
+        for ($i = $startUsingMonth; $i < $monthNumber; $i ++) {
+            $x = $i - $startUsingMonth + 1;
+            $y = isset($transactions[$i]) ? $transactions[$i] : 0;
+
+            $sX += $x;
+            $sY += $y;
+            $sXY += $x * $y;
+            $sXSq += $x * $x;
+            $n += 1;
+        }
+        // foreach ($transactions as $month => $sum) {
+        //     if ($start == 0) {
+        //         $start = $month;
+        //         $i = $month;
+        //     }
+        //     for ($j = $i + 1; $j < $month; $j ++) {
+        //         $points[] = [$j - $start, 0];
+        //         $sX += $j - $start;
+        //         $sXSq += ($j - $start) * ($j - $start);
+        //     }
+        //     $i = $month;
+        //     $sX += $month - $start;
+        //     $sY += $sum;
+        //     $sXY += ($sum * ($month - $start));
+        //     $sXSq += ($month - $start) * ($month - $start);
+        //     $points[] = [$month - $start, $sum];
+        // }
+        $det = $sXSq * $n - $sX * $sX;
+        
+        $det_a = $sXSq * $sY - $sX * $sXY;
+
+        $a = ($det_a / $det);
+        $det_b = $sXY * $n - $sY * $sX;
+
+        $b = ($det_b / $det);
+
+        $forecast = ($monthNumber - $startUsingMonth) * $b + $a;
+        $fact = isset($transactions[$monthNumber]) ? $transactions[$monthNumber] : 0;
+
+        return [$fact, $forecast];
+        // $xAvg /= count($points);
+        // $yAvg /= count($points);
+
+        // $s1 = 0;
+        // $s2 = 0;
+        // foreach ($points as $point) {
+        //     $x = $point[0];
+        //     $y = $point[1];
+
+        //     $s1 += ($x - $xAvg) * ($y - $yAvg);
+        //     $s2 += pow(($x - $xAvg), 2);
+        // }
+
+        // $a = $s1 / $s2;
+
+
+    }
+
     public function forecast() {
         $user = User::find(Auth::user()->id);
         if (session('cpi')) {
@@ -365,8 +441,41 @@ class UserController extends Controller
             '12' => TransactionController::formatSum($money * pow($cpi, 12 / 12)),
         ];
 
+        $monthNumber = date('Y') * 12 + (int)date('m');
+        $data = $this->getForecast($user);
+
+        $fact = $data[0];
+        $forecast = $data[1];
+
+        $difference = $fact > $forecast ? 
+            "Фактические траты выше прогноза на ".TransactionController::formatSum($fact - $forecast) : 
+            "Фактические траты ниже прогноза на ".TransactionController::formatSum($forecast - $fact);
+
+        $period = date('M Y');
+        $monthesKeys = [
+            "Jan" => 'январь',
+            "Feb" => 'февраль',
+            "Mar" => 'март',
+            "Apr" => 'апрель',
+            "May" => 'май',
+            "Jun" => 'июнь',
+            "Jul" => 'июль',
+            "Aug" => 'август',
+            "Sep" => 'сентябрь',
+            "Oct" => 'октябрь',
+            "Nov" => 'ноябрь',
+            "Dec" => 'декабрь',
+        ];
+        foreach ($monthesKeys as $from => $to) {
+            $period = str_replace($from, $to, $period);
+        }
+
         return view('forecast', [
-            'monthes' => $monthes
+            'monthes' => $monthes,
+            'month_forecast' => TransactionController::formatSum($forecast),
+            'month_fact' => TransactionController::formatSum($fact),
+            'difference' => $difference,
+            'period' => $period,
         ]);
     }
 }

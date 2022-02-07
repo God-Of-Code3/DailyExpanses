@@ -147,13 +147,13 @@ class TransactionController extends Controller
     }
 
     public static function formatSumToRubles($sum) {
-        $str = number_format($sum, 2, ',', ' ')." ₽";
+        $str = number_format($sum, 2, ',', ' ')." ₽";
         return $str;
     }
 
     public static function formatSum($sum, $addPlus=false) {
         if (!session('base_transaction')) {
-            $str = number_format($sum, 2, ',', ' ')." ₽";
+            $str = number_format($sum, 2, ',', ' ')." ₽";
             if ($addPlus and $sum > 0) {
                 $str = "+".$str;
             }

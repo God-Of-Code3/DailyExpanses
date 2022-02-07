@@ -15,9 +15,9 @@
 
 @section('content-up')
 	<x-panel classes='container'>
-		<div class="t-center fz-2">Февраль 2022</div>
-		<div class="t-center fz-1 fw-2">45 000/50 000 Р</div>
-		<div class="t-center fz-3 fw-4">Потрачено/Прогноз трат</div>
+		<div class="t-center fz-2">Прогноз трат на {{ $period }}</div>
+		<div class="t-center fz-1 fw-2">{{ $month_forecast }}</div>
+		<div class="t-center fz-3 fw-4">{{ $difference }}</div>
 	</x-panel>
 	<x-panel classes='container'>
 		<div class="t-center">Прогноз текущего остатка с учетом инфляции на срок</div>
