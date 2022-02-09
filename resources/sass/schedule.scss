@@ -36,7 +36,7 @@
 }
 
 .column {
-	width: 10px;
+	width: calc(100% / 20);
 	min-width: calc(100% / 29);
 	height: 100%;
 	margin-left: 4px;

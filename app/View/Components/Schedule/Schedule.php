@@ -9,16 +9,22 @@ class Schedule extends Component
     public $left;
     public $right;
     public $period;
+    public $text;
+    public $leftAction;
+    public $rightAction;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($left, $right, $period)
+    public function __construct($left, $right, $period, $text, $leftAction, $rightAction, $null=false)
     {
         $this->left = $left;
         $this->right = $right;
         $this->period = $period;
+        $this->text = $text;
+        $this->leftAction = $leftAction;
+        $this->rightAction = $rightAction;
     }
 
     /**
