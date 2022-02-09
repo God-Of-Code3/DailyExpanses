@@ -18,7 +18,7 @@ class Diagram extends Component
      *
      * @return void
      */
-    public function __construct($left, $right, $period, $text, $leftAction, $rightAction, $null=false)
+    public function __construct($left, $right, $period, $text, $leftAction, $rightAction, $null=false, $blockPeriod=false)
     {
         $this->left = $left;
         $this->right = $right;
@@ -27,6 +27,11 @@ class Diagram extends Component
         $this->leftAction = $leftAction;
         $this->rightAction = $rightAction;
         $this->null = $null;
+
+        if ($blockPeriod) {
+            $this->left = '';
+            $this->right = '';
+        }
     }
 
     /**

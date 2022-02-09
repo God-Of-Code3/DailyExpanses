@@ -20,7 +20,7 @@
 	</div>
 	<button data-action data-action-click="activate" data-action-click-data="transaction-setting-modal">Настроить фильтры</button>
 	<div class="hidden active" id='diagram' data-active-group='visualisation-type'>
-		<x-diagram.diagram left='пред.' left-action='{{ route("statistics-get", ["shift" => $shift - 1]) }}' right='след.' right-action='{{ route("statistics-get", ["shift" => $shift + 1]) }}' text='{{ $sum }}' period='{{ $periodText }}' null='{{ !$categories }}'>
+		<x-diagram.diagram left='пред.' left-action='{{ route("statistics-get", ["shift" => $shift - 1]) }}' right='след.' right-action='{{ route("statistics-get", ["shift" => $shift + 1]) }}' text='{{ $sum }}' period='{{ $periodText }}' null='{{ !$categories }}' block-period='{{ $settings["period"] == "other" }}'>
 			@foreach($diagramSectors as $diagramSector)
 				<x-diagram.sector color='{{ $diagramSector["color"] }}' percent='{{ $diagramSector["percent"] }}' />
 			@endforeach
@@ -35,7 +35,7 @@
 			{{ $mode }}
 
 		</div><br>
-		<x-schedule.schedule left='пред.' left-action='{{ route("statistics-get", ["shift" => $shift - 1]) }}' right='след.' right-action='{{ route("statistics-get", ["shift" => $shift + 1]) }}' text='{{ $sum }}' period='{{ $periodText }}'>
+		<x-schedule.schedule left='пред.' left-action='{{ route("statistics-get", ["shift" => $shift - 1]) }}' right='след.' right-action='{{ route("statistics-get", ["shift" => $shift + 1]) }}' text='{{ $sum }}' period='{{ $periodText }}' block-period='{{ $settings["period"] == "other" }}'>
 			<div class="schedule-columns">
 				@foreach($sectors as $sector)
 					<x-schedule.column height="{{ $sector['height'] }}" text="{{ $sector['number'] }}">

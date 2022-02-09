@@ -17,7 +17,7 @@ class Schedule extends Component
      *
      * @return void
      */
-    public function __construct($left, $right, $period, $text, $leftAction, $rightAction, $null=false)
+    public function __construct($left, $right, $period, $text, $leftAction, $rightAction, $null=false, $blockPeriod=false)
     {
         $this->left = $left;
         $this->right = $right;
@@ -25,6 +25,10 @@ class Schedule extends Component
         $this->text = $text;
         $this->leftAction = $leftAction;
         $this->rightAction = $rightAction;
+        if ($blockPeriod) {
+            $this->left = '';
+            $this->right = '';
+        }
     }
 
     /**
