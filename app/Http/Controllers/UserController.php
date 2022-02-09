@@ -9,6 +9,10 @@ use App\Models\Category;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\SimpleXLSXGen;
+use App\Http\Controllers\SimpleCSV;
+
+
 class UserController extends Controller
 {
     public function register() {
@@ -280,6 +284,76 @@ class UserController extends Controller
             'category' => $category, 
             'typeText' => $typeText
         ]);
+    }
+
+    public function export(Request $req, $export='') {
+        $user = User::find(Auth::user()->id);
+        
+        $filterData = $this->getFilterData($req);
+        $start = $filterData['start'];
+        $end = $filterData['end'];
+        $errors = $filterData['errors'];
+        $periodText = $filterData['periodText'];
+        $typeText = $filterData['typeText'];
+        $data = $filterData['data'];
+        $category = $filterData['category'];
+        $nullComparison = $filterData['nullComparison'];
+
+        if (!empty($errors) and !session()->get('errors')) {
+            return redirect()->to(route('history-post'))->with(['errors' => $errors])->withErrors($errors);
+        }
+
+        if ($export != '') {
+            if (!$category) {
+                $transactions = Transaction::where('user_id', '=', $user->id)
+                    ->where('transactions.created_at', '>=', $start)
+                    ->where('transactions.created_at', '<=', $end)
+                    ->where('sum', $nullComparison, '0')
+                    ->orderBy('created_at', 'desc')
+                    ->join('categories', 'transactions.category_id', '=', 'categories.id')
+                    ->selectRaw('transactions.sum, transactions.created_at as created_at, categories.name')
+                    ->get()
+                    ->toArray();
+            } else {
+                $transactions = DB::where('user_id', '=', $user->id)
+                    ->where('category_id', '=', $category->id)
+                    ->where('transactions.created_at', '>=', $start)
+                    ->where('transactions.created_at', '<=', $end)
+                    ->where('sum', $nullComparison, '0')
+                    ->orderBy('created_at', 'desc')
+                    ->join('categories', 'transactions.category_id', '=', 'categories.id')
+                    ->selectRaw('transactions.sum, transactions.created_at as created_at, categories.name')
+                    ->get()
+                    ->toArray();
+            }
+            
+            foreach ($transactions as $key => $transaction) {
+                $transactions[$key]['created_at'] = date('Y-m-d H:i:s', strtotime($transaction['created_at']));
+            }
+            array_unshift($transactions, ['Сумма', 'Дата создания', 'Категория']);
+            
+            if ($export == 'xlsx') {
+                $xlsx = SimpleXLSXGen::fromArray($transactions);
+                $xlsx->downloadAs("data.xlsx");
+
+                return redirect()->to(route('export-get'));
+            } elseif ($export == 'csv') {
+                $csv = SimpleCSV::export($transactions);
+                header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment; filename="data.csv"');
+
+                print_r($csv);
+                // return redirect()->to(route('export-get'));
+            }
+        } else {
+            return view('export', [
+                'periodText' => $periodText, 
+                'settings' => $data, 
+                'category' => $category, 
+                'typeText' => $typeText
+            ]);
+        }
+        
     }
 
     public function statistics(Request $req, $shift=0) {

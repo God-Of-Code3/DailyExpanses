@@ -21,6 +21,7 @@ class RealMenu extends Component
             'history' => '',
             'statistics' => '',
             'forecast' => '',
+            'export' => '',
         ];
 
         $this->page[$page] = 'active';

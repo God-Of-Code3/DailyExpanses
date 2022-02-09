@@ -75,6 +75,17 @@ class TransactionSettings extends Component
                 $this->action = 'history-post';
                 break;
 
+            case 'export':
+                $this->title = 'Настройки фильтра';
+                $this->buttonText = 'Применить';
+                $this->renderAllCategories = true;
+                $this->renderAllTypesOption = true;
+                $this->renderPeriod = true;
+                $this->renderCategories = true;
+                $this->renderSum = false;
+                $this->action = 'export-post';
+                break;
+
             case 'statistics':
                 $this->title = 'Настройки фильтра';
                 $this->buttonText = 'Применить';
