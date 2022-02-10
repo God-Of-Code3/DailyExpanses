@@ -23,10 +23,12 @@
 			<x-badge color='{{ $category->color }}' icon="{{ $category->icon }}">{{ $category->name }}</x-badge>
 		@endif
 	</div>
+	<!-- Переключение кнопок xlsx и csv -->
 	<x-tabs.tabs>
 		<x-tabs.tab active data-action data-action-click='activate' data-action-click-data='xlsx-export'>XLSX</x-tab>
 		<x-tabs.tab data-action data-action-click='activate' data-action-click-data='csv-export'>CSV</x-tab>
 	</x-tabs.tabs>
+	
 	<button class='hidden active' id='xlsx-export' data-active-group='export-button' 
 	data-action 
 	data-action-click='locate' 

@@ -27,6 +27,7 @@
 	</div>
 
 	<x-vertical-list.vertical-list>
+		<!-- Вывод транзакций за неделю -->
 		@foreach ($transactions as $transaction)
 			<x-transaction-item transaction-id='{{ $transaction->id }}' />
 		@endforeach

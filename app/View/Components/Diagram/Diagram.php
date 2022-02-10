@@ -28,6 +28,7 @@ class Diagram extends Component
         $this->rightAction = $rightAction;
         $this->null = $null;
 
+        // Если выбран произвольный период, то кнопки "след." и "пред." не должны появляться
         if ($blockPeriod) {
             $this->left = '';
             $this->right = '';

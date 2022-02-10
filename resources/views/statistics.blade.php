@@ -20,14 +20,12 @@
 	</div>
 	<button data-action data-action-click="activate" data-action-click-data="transaction-setting-modal">Настроить фильтры</button>
 	<div class="hidden active" id='diagram' data-active-group='visualisation-type'>
+		<!-- Вывод диаграммы -->
 		<x-diagram.diagram left='пред.' left-action='{{ route("statistics-get", ["shift" => $shift - 1]) }}' right='след.' right-action='{{ route("statistics-get", ["shift" => $shift + 1]) }}' text='{{ $sum }}' period='{{ $periodText }}' null='{{ !$categories }}' block-period='{{ $settings["period"] == "other" }}'>
+			<!-- Вывод секторов -->
 			@foreach($diagramSectors as $diagramSector)
 				<x-diagram.sector color='{{ $diagramSector["color"] }}' percent='{{ $diagramSector["percent"] }}' />
 			@endforeach
-			
-			<!-- <x-diagram.sector color='#5DCF76' percent='33' />
-			<x-diagram.sector color='#499DFF' percent='10' />
-			<x-diagram.sector color='#C549FF' percent='7' /> -->
 		</x-diagram.diagram>
 	</div>
 	<div class="hidden" id='schedule' data-active-group='visualisation-type'>
@@ -35,6 +33,7 @@
 			{{ $mode }}
 
 		</div><br>
+		<!-- Вывод графика -->
 		<x-schedule.schedule left='пред.' left-action='{{ route("statistics-get", ["shift" => $shift - 1]) }}' right='след.' right-action='{{ route("statistics-get", ["shift" => $shift + 1]) }}' text='{{ $sum }}' period='{{ $periodText }}' block-period='{{ $settings["period"] == "other" }}'>
 			<div class="schedule-columns">
 				@foreach($sectors as $sector)
@@ -46,6 +45,7 @@
 				@endforeach
 			</div>
 			<div class="legend">
+				<!-- Вывод полос шкалы -->
 				@foreach ($indicators as $indicator)
 					<x-schedule.indicator percent='{{ $indicator[0] }}'>{{ $indicator[1] }}</x-schedule.indicator>
 				@endforeach
@@ -61,7 +61,9 @@
 		Категории расходов
 	</div>
 	<x-vertical-list.vertical-list>
+		<!-- Вывод категорий -->
 		@foreach($categories as $i => $category)
+			<!-- Если категории объединены, то выводим плашку "другие" -->
 			@if($i == $otherLevel and $otherLevel != 0)
 			<div class="row row-center">
 				<div class="badge" style="background-color: #ABABAB">Другое</div>

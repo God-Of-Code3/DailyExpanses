@@ -15,6 +15,7 @@
 
 @section('content-up')
 	<x-panel classes='container'>
+		<!-- Если прогноз можно произвести, то выводим его, иначе пишем, что не хватает данных -->
 		@if($forecastIsset)
 			<div class="t-center fz-2">Прогноз трат на {{ $period }}</div>
 			<div class="t-center fz-1 fw-2">{{ $month_forecast }}</div>

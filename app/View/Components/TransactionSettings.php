@@ -53,6 +53,7 @@ class TransactionSettings extends Component
         $this->type = $type;
 
         switch ($this->type) {
+            // Если настройки для главной странице
             case 'main':
                 $this->title = 'Настройки транзакции';
                 $this->buttonText = 'Добавить транзакцию';
@@ -64,6 +65,7 @@ class TransactionSettings extends Component
                 $this->action = 'main-post';
                 break;
             
+            // Если настройки для страницы истории
             case 'history':
                 $this->title = 'Настройки фильтра';
                 $this->buttonText = 'Применить';
@@ -75,6 +77,7 @@ class TransactionSettings extends Component
                 $this->action = 'history-post';
                 break;
 
+            // Настройки для страницы экспорта
             case 'export':
                 $this->title = 'Настройки фильтра';
                 $this->buttonText = 'Применить';
@@ -86,6 +89,7 @@ class TransactionSettings extends Component
                 $this->action = 'export-post';
                 break;
 
+            // Настройки для страницы статистики
             case 'statistics':
                 $this->title = 'Настройки фильтра';
                 $this->buttonText = 'Применить';
@@ -97,6 +101,7 @@ class TransactionSettings extends Component
                 $this->action = 'statistics-post';
                 break;
 
+            // Настройки для страницы транзакции
             case 'transaction':
                 $this->title = 'Настройки транзакции';
                 $this->buttonText = 'Сохранить';
@@ -120,7 +125,7 @@ class TransactionSettings extends Component
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-
+    // Получение всех категорий
     public function getCategories() {
         if ($this->renderCategories) {
             $trsController = new TransactionController();

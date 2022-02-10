@@ -34,11 +34,7 @@ class Input extends Component
      */
     public function render()
     {   
-        if ($this->type == 'textarea') {
-            // return view('components.form.textarea');
-        } else {
-            return view('components.form.input');
-        }
+        return view('components.form.input');
         
     }
 }

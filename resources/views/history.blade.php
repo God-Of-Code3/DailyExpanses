@@ -30,6 +30,7 @@
 		Транзакции
 	</div>
 	<x-vertical-list.vertical-list>
+		<!-- Вывод выбранных транзакций -->
 		@foreach ($transactions as $transaction)
 			<x-transaction-item transaction-id='{{ $transaction->id }}' />
 		@endforeach

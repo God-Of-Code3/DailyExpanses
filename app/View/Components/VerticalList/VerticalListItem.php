@@ -21,13 +21,16 @@ class VerticalListItem extends Component
      */
     public function __construct($sum, $color, $categoryName, $icon, $href)
     {
+        // Форматирование суммы
         $this->sumText = TransactionController::formatSum($sum);
+
         $this->color = $color;
         $this->categoryName = $categoryName;
         $this->positive = $sum > 0;
         $this->icon = $icon;
         $this->href = $href;
 
+        // Если сумма положительная, то добавляем +
         if ($this->positive) {
             $this->sumText = "+".$this->sumText;
         }

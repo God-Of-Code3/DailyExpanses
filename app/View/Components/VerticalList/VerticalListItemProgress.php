@@ -19,7 +19,9 @@ class VerticalListItemProgress extends Component
      */
     public function __construct($sum, $color, $categoryName, $percent)
     {
+        // Форматирование суммы
         $this->sumText = TransactionController::formatSum($sum);
+        
         $this->color = $color;
         $this->categoryName = $categoryName;
         $this->percent = $percent;

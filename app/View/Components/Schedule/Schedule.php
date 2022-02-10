@@ -25,6 +25,8 @@ class Schedule extends Component
         $this->text = $text;
         $this->leftAction = $leftAction;
         $this->rightAction = $rightAction;
+
+        // Если выбран произвольный период, то кнопки "след." и "пред." не должны появляться
         if ($blockPeriod) {
             $this->left = '';
             $this->right = '';
