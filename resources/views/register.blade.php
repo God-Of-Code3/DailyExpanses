@@ -13,7 +13,7 @@
 	<x-title>Регистрация</x-title>
 	<x-container inner>
 		<x-panel>
-			<x-form action='register-post' button-text='Войти'>
+			<x-form action='register-post' button-text='Зарегистрироваться'>
 				<x-form.input name='email' label-text='Логин' placeholder='example@site.com' type='email'/>
 				<x-form.input name='password' label-text='Пароль' type='password'/>
 			</x-form>

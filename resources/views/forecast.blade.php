@@ -15,9 +15,13 @@
 
 @section('content-up')
 	<x-panel classes='container'>
-		<div class="t-center fz-2">Прогноз трат на {{ $period }}</div>
-		<div class="t-center fz-1 fw-2">{{ $month_forecast }}</div>
-		<div class="t-center fz-3 fw-4">{{ $difference }}</div>
+		@if($forecastIsset)
+			<div class="t-center fz-2">Прогноз трат на {{ $period }}</div>
+			<div class="t-center fz-1 fw-2">{{ $month_forecast }}</div>
+			<div class="t-center fz-3 fw-4">{{ $difference }}</div>
+		@else
+			<div class="t-center fz-2 fw-2">Не хватает данных для прогноза</div>
+		@endif
 	</x-panel>
 	<x-panel classes='container'>
 		<div class="t-center">Прогноз текущего остатка с учетом инфляции на срок</div>

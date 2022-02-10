@@ -131,6 +131,7 @@ class UserController extends Controller
                 $m = date('m', strtotime("this month"));
                 $y = date('Y', strtotime("this month"));
 
+                // Получение текущего квартала
                 if ($m < 4) {
                     $start = date("Y-m-d 00:00:00", strtotime("first day of january"));
                     $end = date("Y-m-d 23:59:59", strtotime("last day of march"));
@@ -212,7 +213,7 @@ class UserController extends Controller
 
         // Определение данных по умолчанию
         $nullComparison = $statistics ? '<' : '<>';
-        $typeText = 'Доходы и расходы';
+        $typeText = $statistics ? 'Расходы' : 'Доходы и расходы';
 
         $settings = [
             "period" => 'month',
@@ -272,10 +273,12 @@ class UserController extends Controller
         $category = $filterData['category'];
         $nullComparison = $filterData['nullComparison'];
 
+        // Вывод ошибок
         if (!empty($errors) and !session()->get('errors')) {
             return redirect()->to(route('history-post'))->with(['errors' => $errors])->withErrors($errors);
         }
 
+        // Получение транзакций
         if (!$category) {
             $transactions = Transaction::where('user_id', '=', $user->id)
                 ->where('created_at', '>=', $start)
@@ -293,6 +296,7 @@ class UserController extends Controller
                 ->get();
         }
 
+        // Вывод истории
         return view('history', [
             'transactions' => $transactions, 
             'periodText' => $periodText, 
@@ -305,6 +309,7 @@ class UserController extends Controller
     public function export(Request $req, $export='') {
         $user = User::find(Auth::user()->id);
         
+        // Получени данных фильтра
         $filterData = $this->getFilterData($req);
         $start = $filterData['start'];
         $end = $filterData['end'];
@@ -319,6 +324,7 @@ class UserController extends Controller
             return redirect()->to(route('history-post'))->with(['errors' => $errors])->withErrors($errors);
         }
 
+        // Если мы производим непосредственного экспорт, то получаем транзакции
         if ($export != '') {
             if (!$category) {
                 $transactions = Transaction::where('user_id', '=', $user->id)
@@ -346,8 +352,10 @@ class UserController extends Controller
             foreach ($transactions as $key => $transaction) {
                 $transactions[$key]['created_at'] = date('Y-m-d H:i:s', strtotime($transaction['created_at']));
             }
+            // Добавление заголовков
             array_unshift($transactions, ['Сумма', 'Дата создания', 'Категория']);
             
+            // Рассматриваем оба экспорта
             if ($export == 'xlsx') {
                 $xlsx = SimpleXLSXGen::fromArray($transactions);
                 $xlsx->downloadAs("data.xlsx");
@@ -378,6 +386,7 @@ class UserController extends Controller
 
         $interval = $start->diff($end)->format("%a");
 
+        // Определение типов отображения
         $mode = "d";
         $modeName = "days";
         $modeText = "по дням";
@@ -396,6 +405,7 @@ class UserController extends Controller
 
         $sectors = [];
         $maxSum = 0;
+        // Двигаемся по периоду, получаем транзакции и сохраняем их анные
         while ($start < $end) {
             $end1 = min($end, date('Y-m-d 00:00:00', strtotime("+ 1 $modeName", strtotime($start))));
             $transactions = Transaction::where('user_id', '=', $user->id)
@@ -408,6 +418,7 @@ class UserController extends Controller
                 ->toArray();
 
             $sum = 0;
+            // Получение цвета категорий
             foreach ($transactions as $key => $trs) {
                 $sum += $trs['sum'];
                 $transactions[$key]['color'] = Category::find($trs['category_id'])->color;
@@ -427,10 +438,10 @@ class UserController extends Controller
         if ($maxSum == 0) {
             $maxSum = 1;
         }
+        // Вычисоение высоты и порядкового номера столбца
         foreach ($sectors as $key => $sector) {
-            $number = $i % 1 == 0 ? $sector[0] : '';
             $sectors[$key] = [
-                'number' => $number,
+                'number' => $sector[0],
                 'height' => $sector[2] / $maxSum * 100,
                 'transactions' => $sector[1],
                 'sum' => $sector[2]
@@ -468,14 +479,21 @@ class UserController extends Controller
         uasort($categories, function ($a, $b) { return $a['percent'] > $b['percent']; });
         $sectors = [];
         $fourthPercent = 0;
+        $joinedCategories = 0;
+
         foreach ($categories as $category) {
+            // Если процент категории меньше критического значения, обусловленного графическим видом диаграммы добавляем его значение к счетчику объединенных секторов
             if ($category['percent'] < 4) {
                 $fourthPercent += $category['percent'];
+                $joinedCategories += 1;
+
+                // Если это первая категория, то создаем категорию как обычно
                 if (empty($sectors)) {
                     $sectors[] = [
                         'color' => $category['color'],
                         'percent' => $category['percent'],
                     ];
+                // Иначе перекрашиваем сектор в серый цвет, а в ее размер добавляем процент текущей категории
                 } else {
                     $sectors[0]['percent'] = $fourthPercent;
                     $sectors[0]['color'] = '#ABABAB';
@@ -487,10 +505,12 @@ class UserController extends Controller
                 ];
             }
         }
+        // Группа категория "другое"
         $otherLevel = 0;
+        // Расширение группы "другое" до 4%
         if ($fourthPercent > 0 and $fourthPercent < 4) {
             $compression = (100 - (4 - $fourthPercent)) / 100;
-            $otherLevel = count($sectors) - 1;
+            $otherLevel = $joinedCategories > 1 ? count($sectors) - 1 : 0;
             for ($i = 1; $i < count($sectors); $i ++) {
                 $sectors[$i]['percent'] *= $compression;
             }
@@ -506,6 +526,7 @@ class UserController extends Controller
     public function statistics(Request $req, $shift=0) {
         $user = User::find(Auth::user()->id);
 
+        // Получение данных фильтра
         $filterData = $this->getFilterData($req, true, $shift);
 
         $start = $filterData['start'];
@@ -516,10 +537,11 @@ class UserController extends Controller
         $data = $filterData['data'];
         $nullComparison = $filterData['nullComparison'];
 
-        $sectors = $this->getGraphData($user, $start, $end, $nullComparison);
-        $modeText = $sectors[1];
-        $maxSum = $sectors[2];
-        $sectors = $sectors[0];
+        // Получение данных для графика
+        $graphData = $this->getGraphData($user, $start, $end, $nullComparison);
+        $modeText = $graphData[1];
+        $maxSum = $graphData[2];
+        $sectors = $graphData[0];
 
         $indicators = [];
         $c = 4;
@@ -527,16 +549,19 @@ class UserController extends Controller
             $indicators[] = [(100 / ($c - 1)) * $i, TransactionController::formatSum($i / ($c - 1) * $maxSum)];
         }
 
+        // Вывод ошибок
         if (!empty($errors) and !session()->get('errors')) {
             return redirect()->to(route('statistics-post'))->with(['errors' => $errors])->withErrors($errors);
         }
 
-        $categories = $this->getDiagramData($user, $start, $end, $nullComparison);
-        $sum = $categories[2];
-        $diagramSectors = $categories[1];
-        $otherLevel = $categories[3];
-        $categories = $categories[0];
+        // Получение данных для диаграммы
+        $diagramData = $this->getDiagramData($user, $start, $end, $nullComparison);
+        $sum = $diagramData[2];
+        $diagramSectors = $diagramData[1];
+        $otherLevel = $diagramData[3];
+        $categories = $diagramData[0];
 
+        // Вывод данных статистики
         return view('statistics', [
             'categories' => $categories,
             'sum' => TransactionController::formatSum($sum),
@@ -553,6 +578,7 @@ class UserController extends Controller
     }
 
     public function getCPI() {
+        // Запрос к сайту investing.com и получение текущего индекса потребительских цен
         $url = 'https://ru.investing.com/economic-calendar/russian-cpi-1180';
         $ch = curl_init();
         $userAgent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)';
@@ -561,37 +587,46 @@ class UserController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $html = curl_exec($ch);
         curl_close($ch);
-        $releaseStr = '<span>Факт.<div class="arial_14 greenFont">';
+        $releaseStr = '<span>Прогноз<div class="arial_14 noBold">';
         $start = strpos($html, $releaseStr) + strlen($releaseStr);
         $end = strpos($html, "%</div>", $start);
 
-        $ICP = str_replace(",", ".", substr($html, $start, $end - $start));
+        $ICP = (float)(str_replace(",", ".", substr($html, $start, $end - $start)));
 
+        // Возвращение коэффициента инфляции
         return 1 + ($ICP / 100);
     }
 
     public function getForecast($user) {
 
+        // Определение месяца начала использования и текущего месяца
         $monthNumber = date('Y') * 12 + (int)date('m');
         $startUsingMonth = date('Y' , strtotime($user->created_at)) * 12 + (int)date('m' , strtotime($user->created_at));
 
+        // Выбор транзакций за период
         $transactions = Transaction::where('user_id', '=', $user->id)
             ->where('sum', '<', '0')
             ->groupByRaw("Year(created_at) * 12 + Month(created_at)")
             ->selectRaw("abs(sum(sum)) as sum, (Year(created_at) * 12 +  Month(created_at)) AS month")
             ->pluck('sum','month');
 
+        // Получение фактических трат за месяц
+        $fact = isset($transactions[$monthNumber]) ? $transactions[$monthNumber] : 0;
+
         $i = 0;
 
-        $sX = 0;
-        $sY = 0;
-        $sXY = 0;
-        $sXSq = 0;
-        $n = 0;
+        // Рассчет методом линейной регрессии
+        $sX = 0; // Сумма месяцов с начала пользования
+        $sY = 0; // Сумма трат за все время
+        $sXY = 0; // Сумма произведений трат на месяц
+        $sXSq = 0; // Сумма квадратов сроков
+        $n = 0; // Количество месяцев
+
         for ($i = $startUsingMonth; $i < $monthNumber; $i ++) {
-            $x = $i - $startUsingMonth + 1;
+            $x = $i - $startUsingMonth + 1; // Перевод в относительные месяцы
             $y = isset($transactions[$i]) ? $transactions[$i] : 0;
 
+            // Регистрация данных за месяц
             $sX += $x;
             $sY += $y;
             $sXY += $x * $y;
@@ -599,23 +634,39 @@ class UserController extends Controller
             $n += 1;
         }
 
+        if ($n == 0) { // Если данных для прогноза не хватает, возвращаем прогноз -1
+            return [$fact, -1];
+
+        } elseif ($n == 1) { // В случае одного месяца сумма квадратов сроков будет равна квадрату суммы, так что для одного месяца просто возвращаем траты за последний месяц месяц 
+
+            return [$fact, $sY];
+        }
+        // Нахождение общего определителя
         $det = $sXSq * $n - $sX * $sX;
         
-        $det_a = $sXSq * $sY - $sX * $sXY;
+        // Нахождение определителя для свободного члена
+        $detA = $sXSq * $sY - $sX * $sXY;
 
-        $a = ($det_a / $det);
-        $det_b = $sXY * $n - $sY * $sX;
+        // Нахождение свободного члена
+        $a = ($detA / $det);
 
-        $b = ($det_b / $det);
+        // Нахождение определителя коэффициента
+        $detB = $sXY * $n - $sY * $sX;
 
+        // Нахождение коэффициента
+        $b = ($detB / $det);
+
+        // Прогнозирование трат по формуле y = bx + a
         $forecast = ($monthNumber - $startUsingMonth) * $b + $a;
-        $fact = isset($transactions[$monthNumber]) ? $transactions[$monthNumber] : 0;
 
-        return [$fact, $forecast];
+
+        return [$fact, max(0, $forecast)]; // Отсекаем значения меньше нуля, т.к. отрицательных расходов быть не может
     }
 
     public function forecast() {
         $user = User::find(Auth::user()->id);
+
+        // Чтобы не совершать запросы к сайту при постоянном обновлении страницы, сохраняем текущие данные об ИПЦ в сессию
         if (session('cpi')) {
             $cpi = session('cpi'); 
         } else {
@@ -624,6 +675,7 @@ class UserController extends Controller
         }
         $money = $user->money;
         
+        // Рассчет текущего остатка с учетом инфляции на разные сроки
         $monthes = [
             '3' => TransactionController::formatSum($money * pow($cpi, 3 / 12)),
             '6' => TransactionController::formatSum($money * pow($cpi, 6 / 12)),
@@ -636,10 +688,14 @@ class UserController extends Controller
         $fact = $data[0];
         $forecast = $data[1];
 
+        $forecastIsset = $forecast != -1; // Если возвращенный прогноз равен -1, то данных для прогноза не хватает
+
+        // Сравнение прогноза с реальными расходами
         $difference = $fact > $forecast ? 
             "Фактические траты выше прогноза на ".TransactionController::formatSum($fact - $forecast) : 
             "Фактические траты ниже прогноза на ".TransactionController::formatSum($forecast - $fact);
 
+        // Форматирование названия месяца
         $period = date('M Y');
         $monthesKeys = [
             "Jan" => 'январь',
@@ -665,6 +721,7 @@ class UserController extends Controller
             'month_fact' => TransactionController::formatSum($fact),
             'difference' => $difference,
             'period' => $period,
+            'forecastIsset' => $forecastIsset
         ]);
     }
 }

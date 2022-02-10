@@ -62,7 +62,7 @@
 	</div>
 	<x-vertical-list.vertical-list>
 		@foreach($categories as $i => $category)
-			@if($i == $otherLevel)
+			@if($i == $otherLevel and $otherLevel != 0)
 			<div class="row row-center">
 				<div class="badge" style="background-color: #ABABAB">Другое</div>
 			</div>
