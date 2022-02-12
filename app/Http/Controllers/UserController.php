@@ -337,7 +337,7 @@ class UserController extends Controller
                     ->get()
                     ->toArray();
             } else {
-                $transactions = DB::where('user_id', '=', $user->id)
+                $transactions = Transaction::where('user_id', '=', $user->id)
                     ->where('category_id', '=', $category->id)
                     ->where('transactions.created_at', '>=', $start)
                     ->where('transactions.created_at', '<=', $end)
@@ -505,21 +505,22 @@ class UserController extends Controller
                 ];
             }
         }
+
+        $otherLevel = count($categories) - $joinedCategories;
         // Группа категория "другое"
-        $otherLevel = 0;
+
         // Расширение группы "другое" до 4%
         if ($fourthPercent > 0 and $fourthPercent < 4) {
             $compression = (100 - (4 - $fourthPercent)) / 100;
-            $otherLevel = $joinedCategories > 1 ? count($sectors) - 1 : 0;
+
             for ($i = 1; $i < count($sectors); $i ++) {
                 $sectors[$i]['percent'] *= $compression;
             }
             $sectors[0]['percent'] = 4;
         }
-
         // Сортировка категорий по возрастанию
-        uasort($categories, function ($a, $b) { return $a['percent'] < $b['percent']; });
-        uasort($sectors, function ($a, $b) { return $a['percent'] < $b['percent']; });
+        usort($categories, function ($a, $b) { return $a['percent'] < $b['percent']; });
+        usort($sectors, function ($a, $b) { return $a['percent'] < $b['percent']; });
         return [$categories, $sectors, $sum, $otherLevel];
     }
 
