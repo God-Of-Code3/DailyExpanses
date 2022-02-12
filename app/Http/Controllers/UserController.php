@@ -350,7 +350,11 @@ class UserController extends Controller
             }
             
             foreach ($transactions as $key => $transaction) {
-                $transactions[$key]['created_at'] = date('Y-m-d H:i:s', strtotime($transaction['created_at']));
+                $transactions[$key] = [
+                    $transaction['sum'],
+                    date('Y-m-d H:i:s', strtotime($transaction['created_at'])),
+                    $transaction['name']
+                ];
             }
             // Добавление заголовков
             array_unshift($transactions, ['Сумма', 'Дата создания', 'Категория']);
@@ -359,12 +363,14 @@ class UserController extends Controller
             if ($export == 'xlsx') {
                 $xlsx = SimpleXLSXGen::fromArray($transactions);
                 $xlsx->downloadAs("data.xlsx");
+                $xlsx->exit();
 
                 return redirect()->to(route('export-get'));
             } elseif ($export == 'csv') {
                 $csv = SimpleCSV::export($transactions);
-                header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Type:text/csv; charset=windows-1251');
                 header('Content-Disposition: attachment; filename="data.csv"');
+
 
                 print_r($csv);
                 // return redirect()->to(route('export-get'));
