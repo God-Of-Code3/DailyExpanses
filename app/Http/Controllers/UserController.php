@@ -47,6 +47,13 @@ class UserController extends Controller
         return view('login');
     }
 
+    public function logout() {
+        // Выход из аккаунта
+        Auth::logout();
+
+        return redirect()->to(route('login-get'));
+    }
+
     public function handleLogin(Request $req) {
         // Проверка авторизации
         $authData = $req->only(['email', 'password']);

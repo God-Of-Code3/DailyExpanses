@@ -29,6 +29,9 @@ Route::post('/register', [UserController::class, 'handleRegister'])->name('regis
 Route::get('/login', [UserController::class, 'login'])->name('login-get');
 Route::post('/login', [UserController::class, 'handleLogin'])->name('login-post');
 
+// Выход из аккаунта
+Route::get('/logout', [UserController::class, 'logout'])->middleware('auth')->name('logout-get');
+
 // Все дальнейшие маршруты будут требовать авторизации и будет использоваться middleware
 
 // Главная страница
