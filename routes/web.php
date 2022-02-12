@@ -19,10 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function () {
-    return view('test');
-});
-
 // Route::get('/login', [UserController::class, 'login'])->name('login-get');
 
 // Страница регистрации - отображение и обработка
@@ -32,6 +28,8 @@ Route::post('/register', [UserController::class, 'handleRegister'])->name('regis
 // Страница авторизации - отображение и обработка
 Route::get('/login', [UserController::class, 'login'])->name('login-get');
 Route::post('/login', [UserController::class, 'handleLogin'])->name('login-post');
+
+// Все дальнейшие маршруты будут требовать авторизации и будет использоваться middleware
 
 // Главная страница
 Route::get('/main', [UserController::class, 'main'])->middleware('auth')->name('main-get');
@@ -70,9 +68,9 @@ Route::post('/export', [UserController::class, 'export'])->middleware('auth')->n
 //     return view('transaction');
 // })->name('transaction-get');
 
-Route::get('/transactions', function () {
-    return view('transactions');
-});
+// Route::get('/transactions', function () {
+//     return view('transactions');
+// });
 
 // Route::get('/forecast', function () {
 //     return view('forecast');

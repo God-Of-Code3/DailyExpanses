@@ -31,3 +31,10 @@
 .modal-close {
 	padding: var(--main-padding);
 }
+
+@media(min-width: 500px) {
+	.modal-close img {
+		width: 32px;
+		height: 32px;
+	}
+}

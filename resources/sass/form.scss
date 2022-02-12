@@ -81,3 +81,10 @@ button.short img {
 	margin-bottom: var(--third-padding);
 	margin-right: var(--third-padding);
 }
+
+@media (min-width: 500px) {
+	button.short img {
+		width: 38px;
+		height: 30px;
+	}
+}

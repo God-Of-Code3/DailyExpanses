@@ -43,3 +43,18 @@
 	display: grid;
 	place-items: center center;
 }
+
+.diagram-data {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+@media (min-width: 500px) {
+	.diagram {
+		svg {
+			width: 300px;
+			height: 300px;
+		}
+	}
+}

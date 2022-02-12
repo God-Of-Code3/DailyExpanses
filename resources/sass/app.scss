@@ -38,7 +38,7 @@ body {
 
 	--fz-1: 24px;
 	--fz-2: 14px;
-	--fz-0: 36px;
+	--fz-0: 32px;
 	--fz-1-2: 18px;
 	--fz-0-1: 16px;
 	--fz-3: 14px;
@@ -56,6 +56,7 @@ body {
 	font-family: Montserrat;
 	box-sizing: border-box;
 	font-weight: var(--fw-3);
+	font-size: var(--fz-3);
 }
 
 /* Distances */
@@ -383,4 +384,47 @@ body {
 body {
 	position: relative;
 
+}
+
+// Adaptation
+
+@media (max-width: 370px) {
+	:root {
+		--main-padding: 15px;
+		--second-padding: 12px;
+		--third-padding: 7px;
+		--fourth-padding: 5px;
+
+		--fz-1: 20px;
+		--fz-2: 12px;
+		--fz-0: 30px;
+		--fz-1-2: 15px;
+		--fz-0-1: 13px;
+		--fz-3: 12px;
+		--fz-4: 10px;
+		--fz-5: 8px;
+
+		--border-radius: 15px;
+	}
+}
+
+@media (min-width: 500px) {
+	:root {
+		--big-padding: 64px;
+		--main-padding: 40px;
+		--second-padding: 30px;
+		--third-padding: 20px;
+		--fourth-padding: 14px;
+
+		--fz-1: 48px;
+		--fz-2: 28px;
+		--fz-0: 72px;
+		--fz-1-2: 36px;
+		--fz-0-1: 32px;
+		--fz-3: 28px;
+		--fz-4: 24px;
+		--fz-5: 20px;
+
+		--border-radius: 40px;
+	}
 }

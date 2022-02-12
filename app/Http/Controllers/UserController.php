@@ -26,7 +26,7 @@ class UserController extends Controller
         if (User::where('email', $req->input('email'))->exists()) {
             return redirect()->to(route('register-get'))->withErrors(['form' => 'Логин уже используется']);
         }
-
+        
         // Создание пользователя
         $user = new User();
         $user->email = $req->input('email');
